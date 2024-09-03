@@ -6,6 +6,7 @@ from .views import (
     ComprobanteRetrieveUpdateDestroyView,
     ComprobanteItemListCreateView,
     ComprobanteItemRetrieveUpdateDestroyView,
+    buscar_cliente,
 )
 
 urlpatterns = [
@@ -20,4 +21,6 @@ urlpatterns = [
     # URLs for ComprobanteItem
     path('comprobante-items/', ComprobanteItemListCreateView.as_view(), name='comprobante-item-list-create'),
     path('comprobante-items/<int:pk>/', ComprobanteItemRetrieveUpdateDestroyView.as_view(), name='comprobante-item-retrieve-update-destroy'),
+
+    path('buscar-cliente/', buscar_cliente, name='buscar_cliente'),
 ]

@@ -13,6 +13,8 @@ from .serializers import (
 from rest_framework.response import Response # type: ignore
 from rest_framework.decorators import api_view # type: ignore
 from django.http import JsonResponse, Http404
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 # CRUD views for Entidad
 class EntidadListCreateView(generics.ListCreateAPIView):
@@ -42,17 +44,35 @@ class ComprobanteItemRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPI
     serializer_class = ComprobanteItemSerializer
 
 
+
+
+@swagger_auto_schema(
+    method='post',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'numeroDocumento': openapi.Schema(type=openapi.TYPE_STRING, description='Número de Documento del cliente'),
+        },
+        required=['numeroDocumento'],
+    ),
+    responses={
+        200: EntidadSerializer(),
+        404: 'No Encontrado',
+        400: 'Bad Request',
+    }
+)
 @api_view(['POST'])
 def buscar_cliente(request):
     try:
-        data: dict = request.data  # Suponiendo que el cuerpo de la solicitud es JSON y se usa request.data
-        nDocumento = data.get('numeroDocumento')  # Usa get para evitar KeyError
+        data: dict = request.data  
+        nDocumento = data.get('numeroDocumento')  
 
         # Buscar el cliente
         cliente = Entidad.objects.filter(numeroDocumento=nDocumento).first()
 
         if cliente is None:
-            raise Http404("Cliente no encontrado")
+            return JsonResponse({'No Encontrado'}, status=404)
+
 
         # Serializar los datos del cliente
         serializer = EntidadSerializer(cliente)
