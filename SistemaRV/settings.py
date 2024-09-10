@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from celery.schedules import crontab
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,8 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
+    'authentication.apps.AuthenticationConfig',
     'rest_framework',
     'drf_yasg',
+    'django_celery_beat',
     ]
 
 MIDDLEWARE = [
@@ -129,4 +134,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
+}
+
+CELERY_TIMEZONE = 'America/Lima'
+CELERY_ENABLE_UTC = False
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0' # Redis as message broker
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BROKER_URL = 'memory://'  # Use an in-memory broker for testing
+CELERY_RESULT_BACKEND = 'cache'  # Use cache as the result backend for testing
+CELERY_CACHE_BACKEND = 'memory'
+
+# Celery Beat settings
+CELERY_BEAT_SCHEDULE = {
+    'daily-task': {
+        'task': 'myapp.tasks.emisionResumenDeBoletas', 
+        'schedule': crontab(hour=23, minute=55),  # Run every day at 11:55 PM
+    },
 }
