@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from celery.schedules import crontab
+import environ
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -82,9 +88,13 @@ WSGI_APPLICATION = 'SistemaRV.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": env("ENGINE"),
+        "NAME": env("NAMEDB"),
+        "USER": env("USERDB"),
+        "PASSWORD": env("PASSWORDDB"),
+        "HOST": env("HOSTDB"),
+        "PORT": env("PORTDB"),
     }
 }
 
@@ -146,6 +156,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BROKER_URL = 'memory://'  # Use an in-memory broker for testing
 CELERY_RESULT_BACKEND = 'cache'  # Use cache as the result backend for testing
 CELERY_CACHE_BACKEND = 'memory'
+CELERY_TASK_ALWAYS_EAGER = True
 
 # Celery Beat settings
 CELERY_BEAT_SCHEDULE = {

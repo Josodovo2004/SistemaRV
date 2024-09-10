@@ -115,6 +115,9 @@ class Comprobante(models.Model):
     fechaEmision = models.DateField(default=tm.now, null=False)
     codigoMoneda = models.ForeignKey(CodigoMoneda, on_delete=models.DO_NOTHING, null=True)
 
+    def __str__(self) -> str:
+        return f'{self.emisor.razonSocial}-{self.adquiriente.razonSocial}-{self.fechaEmision}-{self.serie}-{self.numeroComprobante}'
+
 
 class ComprobanteItem(models.Model):
     comprobante = models.ForeignKey(Comprobante, on_delete=models.CASCADE ,null=False)

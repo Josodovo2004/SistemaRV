@@ -1,5 +1,5 @@
 # myapp/tasks.py
-from celery import shared_task, Celery
+from SistemaRV.celery import shared_task, Celery
 from core.models import Comprobante, Entidad, ComprobanteItem
 from core.serializers import ComprobanteSerializer, ComprobanteItemSerializer
 from datetime import date

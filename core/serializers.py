@@ -5,7 +5,7 @@ from .models import (
     EstadoDocumento,
     Usuario,
     Cliente,
-    Catalogo05TiposTributos,
+    
     Catalogo15ElementosAdicionales,
     Ubigeo,
     CodigoPais,
@@ -41,10 +41,7 @@ class ClienteSerializer(serializers.ModelSerializer):
         model = Cliente
         fields = '__all__'
 
-class Catalogo05TiposTributosSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Catalogo05TiposTributos
-        fields = '__all__'
+
 
 class Catalogo15ElementosAdicionalesSerializer(serializers.ModelSerializer):
     class Meta:
