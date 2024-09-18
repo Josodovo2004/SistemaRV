@@ -1,41 +1,112 @@
 from django.test import TestCase
-from ..tasks import emisionResumenDeBoletas  # Ensure correct import
-from celery.result import AsyncResult
-from django_celery_beat.models import PeriodicTask, IntervalSchedule
+from core.models import Comprobante, Entidad, Catalogo01TipoDocumento, CodigoMoneda, CodigoPais, ComprobanteItem, Catalogo06DocumentoIdentidad, Ubigeo
+from datetime import date
+from asgiref.sync import async_to_sync
+from .views import emicionDeResumen
 
-class CeleryTestCase(TestCase):
+class EmicionResumenTestCase(TestCase):
 
     def setUp(self):
-        # Set up any required objects for the test
-        pass
-    
-    def test_emisionResumenDeBoletas(self):
-        # Trigger the task
-        result = emisionResumenDeBoletas.delay()
-        
-        # Wait for task to complete (poll until it's ready)
-        result.wait(timeout=10)  # Set timeout as needed
-        
-        # Check if the task completed successfully
-        self.assertTrue(result.successful())
-        
-        # Check the result of the task (adjust this based on what your task returns)
-        self.assertEqual(result.result, None)  # If the task returns something, check it here
+        self.setup_test_data()
 
-    def test_emisionResumenDeBoletas_schedule(self):
-        # Create a periodic task schedule (every 1 minute)
-        schedule, created = IntervalSchedule.objects.get_or_create(
-            every=1,
-            period=IntervalSchedule.MINUTES
+    def setup_test_data(self):
+        self.codigoPais = CodigoPais.objects.create(
+            codigo='PE',
+            pais='Peru'
         )
-        
-        # Create the periodic task
-        PeriodicTask.objects.create(
-            interval=schedule,
-            name='Test periodic task',
-            task='core.tasks.emisionResumenDeBoletas'  # Adjust path if needed
+        Catalogo06DocumentoIdentidad.objects.create(
+            codigo=1,
+            descripcion='DNI',
+            abrev='DNI'
         )
-        
-        # Check if the periodic task exists in the database
-        task_exists = PeriodicTask.objects.filter(name='Test periodic task').exists()
-        self.assertTrue(task_exists)
+        Catalogo06DocumentoIdentidad.objects.create(
+            codigo=6,
+            descripcion='RUC',
+            abrev='RUC'
+        )
+
+        self.ubigeo = Ubigeo.objects.create(
+            codigo=160101,
+            distrito='Iquitos',
+            provincia='Maynas',
+            departamento='Loreto',
+        )
+        self.tipo_comprobante = Catalogo01TipoDocumento.objects.create(
+            codigo='03'
+        )
+        self.codigo_moneda = CodigoMoneda.objects.create(
+            codigo='PEN'
+        )
+        self.emisor = Entidad.objects.create(
+            numeroDocumento='20601453269',
+            tipoDocumento=Catalogo06DocumentoIdentidad.objects.filter(codigo=6).first(),
+            razonSocial='Emisor Test',
+            nombreComercial='Emisor Test',
+            ubigeo=self.ubigeo,
+            direccion='Alzamora 124',
+            codigoPais=self.codigoPais,
+        )
+        self.adquiriente = Entidad.objects.create(
+            numeroDocumento='74088718',
+            tipoDocumento=Catalogo06DocumentoIdentidad.objects.filter(codigo=1).first(),
+            razonSocial='Adquiriente Test',
+            nombreComercial='Adquiriente Test',
+            ubigeo=self.ubigeo,
+            direccion='Alzamora 128',
+            codigoPais=self.codigoPais,
+        )
+        self.comprobante1 = Comprobante.objects.create(
+            emisor=self.emisor,
+            adquiriente=self.adquiriente,
+            tipoComprobante=self.tipo_comprobante,
+            serie='001',
+            numeroComprobante='00012345',
+            fechaEmision=date.today(),
+            codigoMoneda=self.codigo_moneda
+        )
+        self.comprobante2 = Comprobante.objects.create(
+            emisor=self.emisor,
+            adquiriente=self.adquiriente,
+            tipoComprobante=self.tipo_comprobante,
+            serie='001',
+            numeroComprobante='00012344',
+            fechaEmision=date.today(),
+            codigoMoneda=self.codigo_moneda
+        )
+        self.comprobante3 = Comprobante.objects.create(
+            emisor=self.emisor,
+            adquiriente=self.adquiriente,
+            tipoComprobante=self.tipo_comprobante,
+            serie='001',
+            numeroComprobante='00012346',
+            fechaEmision=date.today(),
+            codigoMoneda=self.codigo_moneda
+        )
+
+        ComprobanteItem.objects.create(
+            comprobante=self.comprobante1,
+            codigoItem=1,
+            cantidad=5
+        )
+        ComprobanteItem.objects.create(
+            comprobante=self.comprobante2,
+            codigoItem=1,
+            cantidad=5
+        )
+        ComprobanteItem.objects.create(
+            comprobante=self.comprobante3,
+            codigoItem=2,
+            cantidad=5
+        )
+
+    def test_emicionDeResumen(self):
+        # Trigger the function directly
+        result = async_to_sync(emicionDeResumen)(None)  # Passing None to simulate today's comprobantes
+
+        # Check if the task completed successfully
+        self.assertTrue(result, "Function did not complete successfully")
+
+        # Since the function returns True or a list of responses, check if the result is as expected
+        if isinstance(result, list):
+            self.assertEqual(len(result), 0, "There are unexpected responses")
+
