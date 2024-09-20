@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from celery.schedules import crontab
 import environ
+from .awsData import sharedKey, dbEngine, nameDb, passwordDb, userDb, hostDb, portDb 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,12 +87,12 @@ WSGI_APPLICATION = 'SistemaRV.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": env("ENGINE"),
-        "NAME": env("NAMEDB"),
-        "USER": env("USERDB"),
-        "PASSWORD": env("PASSWORDDB"),
-        "HOST": env("HOSTDB"),
-        "PORT": env("PORTDB"),
+        "ENGINE": dbEngine,
+        "NAME": nameDb,
+        "USER": userDb,
+        "PASSWORD": passwordDb,
+        "HOST": hostDb,
+        "PORT": portDb,
     }
 }
 
@@ -149,7 +150,7 @@ REST_FRAMEWORK = {
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'SIGNING_KEY': env('SHARED_SECRET_KEY'),  # The shared secret key across services
+    'SIGNING_KEY': sharedKey,  # The shared secret key across services
     'AUTH_HEADER_TYPES': ('Bearer',),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Adjust as necessary
 }
