@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-from celery.schedules import crontab
 import environ
 from .awsData import sharedKey, dbEngine, nameDb, passwordDb, userDb, hostDb, portDb 
 
@@ -31,7 +30,9 @@ SECRET_KEY = 'django-insecure-crv0@it#6nt=&(h3(a^ls$zksms7825*xhfjj+i2*2dqgo!x)j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+CORS_ALLOW_ALL_ORIGINS = True 
 
 
 # Application definition
@@ -47,8 +48,7 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'rest_framework',
     'drf_yasg',
-    'channels',
-    'django_celery_beat'
+    'corsheaders',
     ]
 
 MIDDLEWARE = [
@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'SistemaRV.urls'
@@ -145,6 +146,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',  # For application/x-www-form-urlencoded
+        'rest_framework.parsers.MultiPartParser',  # For handling file uploads
+    ],
 }
 
 from datetime import timedelta
