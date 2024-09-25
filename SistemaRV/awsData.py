@@ -1,6 +1,6 @@
 import boto3
 
-ssm = boto3.client('ssm')
+ssm = boto3.client('ssm','us-east-1')
 
 service='SistemaRV'
 
