@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:13
     environment:
-      POSTGRES_DB: SistemaRVDB
+      POSTGRES_DB: SistemaRV
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
     volumes:
@@ -27,7 +27,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://postgres:1234@db/SistemaRVDB
+      DATABASE_URL: postgres://postgres:1234@db/SistemaRV
     networks:
       - app_network
 
