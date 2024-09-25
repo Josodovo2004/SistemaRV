@@ -25,18 +25,29 @@ jobs:
       - name: Connect to EC2 and deploy
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} << 'EOF'
+          set -e  # Exit immediately if a command exits with a non-zero status
+          
           cd /home/ec2-user/app/
+          
           # Remove the corrupted docker-compose if it exists
-          sudo rm -f /usr/local/bin/docker-compose
+          if [ -f /usr/local/bin/docker-compose ]; then
+              sudo rm -f /usr/local/bin/docker-compose
+          fi
           
           # Install docker-compose
           sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
           
+          # Check if docker-compose was installed successfully
+          if ! command -v docker-compose &> /dev/null; then
+              echo "docker-compose could not be installed."
+              exit 1
+          fi
+          
           # Stop and remove old containers
-          docker-compose down
+          sudo docker-compose down
           
           # Build and start containers
-          docker-compose up -d --build
+          sudo docker-compose up -d --build
           exit
           EOF
