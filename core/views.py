@@ -15,11 +15,20 @@ from rest_framework.decorators import api_view # type: ignore
 from django.http import JsonResponse, Http404
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
+from SistemaRV.decorators import jwt_required
+from rest_framework.permissions import IsAuthenticated
+from SistemaRV.decorators import CustomJWTAuthentication
 # CRUD views for Entidad
+
 class EntidadListCreateView(generics.ListCreateAPIView):
     queryset = Entidad.objects.all()
     serializer_class = EntidadSerializer
+    authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
+    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
+    @jwt_required
+    def get(self, request, *args, **kwargs):
+        print(request.user)
+        return super().get(request, *args, **kwargs)
 
 class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Entidad.objects.all()
