@@ -10,7 +10,7 @@ class CustomJWTAuthentication(JWTAuthentication):
         response = requests.get(f'http://localhost:8000/api/users/{user_id}')
         
         if response.status_code == 404:
-            raise AuthenticationFailed(_('User not found'), code='user_not_found')
+            raise AuthenticationFailed(('User not found'), code='user_not_found')
         # You can return any user data you need here
         return response.json()  # Adjust based on the structure of your user service response
 
