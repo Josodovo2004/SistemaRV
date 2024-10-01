@@ -24,33 +24,113 @@ class EntidadListCreateView(generics.ListCreateAPIView):
     queryset = Entidad.objects.all()
     serializer_class = EntidadSerializer
     authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
-    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
+    permission_classes = []  # No permission class needed
+
     @jwt_required
     def get(self, request, *args, **kwargs):
-        print(request.user)
         return super().get(request, *args, **kwargs)
+
+    @jwt_required
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Entidad.objects.all()
     serializer_class = EntidadSerializer
+    authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
+    permission_classes = []  # No permission class needed
+
+    @jwt_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    @jwt_required
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
+
+    @jwt_required
+    def patch(self, request, *args, **kwargs):
+        return super().patch(request, *args, **kwargs)
+
+    @jwt_required
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
+
 
 # CRUD views for Comprobante
 class ComprobanteListCreateView(generics.ListCreateAPIView):
     queryset = Comprobante.objects.all()
     serializer_class = ComprobanteSerializer
+    authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
+    permission_classes = []  # No permission class needed
+
+    @jwt_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    @jwt_required
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 class ComprobanteRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comprobante.objects.all()
     serializer_class = ComprobanteSerializer
+    authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
+    permission_classes = []  # No permission class needed
+
+    @jwt_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    @jwt_required
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
+
+    @jwt_required
+    def patch(self, request, *args, **kwargs):
+        return super().patch(request, *args, **kwargs)
+
+    @jwt_required
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
+
 
 # CRUD views for ComprobanteItem
 class ComprobanteItemListCreateView(generics.ListCreateAPIView):
     queryset = ComprobanteItem.objects.all()
     serializer_class = ComprobanteItemSerializer
+    authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
+    permission_classes = []  # No permission class needed
+
+    @jwt_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    @jwt_required
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 class ComprobanteItemRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ComprobanteItem.objects.all()
     serializer_class = ComprobanteItemSerializer
+    authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
+    permission_classes = []  # No permission class needed
+
+    @jwt_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    @jwt_required
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
+
+    @jwt_required
+    def patch(self, request, *args, **kwargs):
+        return super().patch(request, *args, **kwargs)
+
+    @jwt_required
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
 
 
 
