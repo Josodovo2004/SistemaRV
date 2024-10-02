@@ -8,7 +8,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - app_network
     healthcheck:
@@ -23,10 +23,13 @@ services:
     volumes:
       - .:/app
     ports:
-      - "80:8000"
+      - "8001:8000"
     depends_on:
       - db
     environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: us-east-1  # Optional
       DATABASE_URL: postgres://postgres:1234@db/SistemaRV
     networks:
       - app_network
