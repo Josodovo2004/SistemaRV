@@ -99,6 +99,7 @@ class Entidad(models.Model):
     ubigeo = models.ForeignKey(Ubigeo, on_delete=models.CASCADE, null=False)
     direccion = models.CharField(max_length=50, null=False)
     codigoPais = models.ForeignKey(CodigoPais, on_delete=models.CASCADE, null=False)
+    imagen = models.CharField(max_length=200, null=True)
 
     def __str__(self) -> str:
         return self.nombreComercial

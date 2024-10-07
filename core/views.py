@@ -16,7 +16,6 @@ from django.http import JsonResponse, Http404
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from SistemaRV.decorators import jwt_required
-from rest_framework.permissions import IsAuthenticated
 from SistemaRV.decorators import CustomJWTAuthentication
 # CRUD views for Entidad
 
