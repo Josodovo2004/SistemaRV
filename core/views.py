@@ -17,6 +17,8 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from SistemaRV.decorators import jwt_required
 from SistemaRV.decorators import CustomJWTAuthentication
+from .filters import EntidadFilter, ComprobanteFilter
+from django_filters.rest_framework import DjangoFilterBackend
 # CRUD views for Entidad
 
 class EntidadListCreateView(generics.ListCreateAPIView):
@@ -24,10 +26,8 @@ class EntidadListCreateView(generics.ListCreateAPIView):
     serializer_class = EntidadSerializer
     authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
     permission_classes = []  # No permission class needed
-
-    @jwt_required
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = EntidadFilter
 
     @jwt_required
     def post(self, request, *args, **kwargs):
@@ -38,10 +38,6 @@ class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EntidadSerializer
     authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
     permission_classes = []  # No permission class needed
-
-    @jwt_required
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
 
     @jwt_required
     def put(self, request, *args, **kwargs):
@@ -62,11 +58,9 @@ class ComprobanteListCreateView(generics.ListCreateAPIView):
     serializer_class = ComprobanteSerializer
     authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
     permission_classes = []  # No permission class needed
-
-    @jwt_required
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
-
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ComprobanteFilter
+    
     @jwt_required
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
@@ -76,10 +70,6 @@ class ComprobanteRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView
     serializer_class = ComprobanteSerializer
     authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
     permission_classes = []  # No permission class needed
-
-    @jwt_required
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
 
     @jwt_required
     def put(self, request, *args, **kwargs):
@@ -102,10 +92,6 @@ class ComprobanteItemListCreateView(generics.ListCreateAPIView):
     permission_classes = []  # No permission class needed
 
     @jwt_required
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
-
-    @jwt_required
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
@@ -114,11 +100,7 @@ class ComprobanteItemRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPI
     serializer_class = ComprobanteItemSerializer
     authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
     permission_classes = []  # No permission class needed
-
-    @jwt_required
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
-
+    
     @jwt_required
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
