@@ -7,6 +7,7 @@ class Catalogo01TipoDocumento(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=2, primary_key=True)  # Field name made lowercase.
     descripcion = models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True)  # Field name made lowercase.
     un_1001 = models.CharField(db_column='UN_1001', max_length=3, blank=True, null=True)  # Field name made lowercase.
+    serieSufix= models.CharField(max_length=2, null=False, default='')
 
     class Meta:
         db_table = 'CATALOGO_01_TIPO_DOCUMENTO'
@@ -104,13 +105,25 @@ class Entidad(models.Model):
     def __str__(self) -> str:
         return self.nombreComercial
 
+class TipoPago(models.Model):
+    name= models.CharField(max_length=50, null=False)
+    
+    def __str__(self):
+        return self.name
+
+class TipoOperacion(models.Model):
+    name= models.CharField(max_length=50, null=False)
+    
+    def __str__(self):
+        return self.name
+
 
 class Comprobante(models.Model):
     emisor = models.ForeignKey(Entidad, on_delete=models.DO_NOTHING, null=False, related_name='comprobantes_emitidos')
     adquiriente = models.ForeignKey(Entidad, on_delete=models.DO_NOTHING, null=False, related_name='comprobantes_recibidos')
-    tipoComprobante = models.ForeignKey(Catalogo01TipoDocumento, on_delete= models.DO_NOTHING, null=False)
-    tipoOperacion = ''
-    tipoPago = ''
+    tipoComprobante = models.ForeignKey(Catalogo01TipoDocumento, on_delete=models.DO_NOTHING, null=False)
+    tipoOperacion = models.ForeignKey(TipoOperacion, on_delete=models.DO_NOTHING, null=True)
+    tipoPago = models.ForeignKey(TipoPago, on_delete=models.DO_NOTHING, null=True)
     serie = models.CharField(max_length=4, null=False)
     numeroComprobante = models.CharField(max_length=8, null=False)
     fechaEmision = models.DateField(default=tm.now, null=False)
@@ -119,6 +132,32 @@ class Comprobante(models.Model):
     def __str__(self) -> str:
         return f'{self.emisor.razonSocial}-{self.adquiriente.razonSocial}-{self.fechaEmision}-{self.serie}-{self.numeroComprobante}'
 
+    def save(self, *args, **kwargs):
+        if not self.serie or not self.numeroComprobante:
+            # Get the last issued Comprobante
+            last_comprobante = Comprobante.objects.filter(serie__startswith=self.tipoComprobante.codigo).order_by('-id').first()
+
+            if last_comprobante:
+                last_num = int(last_comprobante.numeroComprobante)
+                last_serie = last_comprobante.serie
+                
+                # Check if the number is at its limit
+                if last_num >= 99999999:
+                    # Reset numeroComprobante and increment serie
+                    last_num = 1
+                    # Increment series (e.g., from F001 to F002, or B001 to B002)
+                    new_serie_number = int(last_serie) + 1
+                    self.serie = str(new_serie_number).zfill(2)
+                else:
+                    last_num += 1
+                    self.serie = last_serie
+            else:
+                # Initialize serie and numeroComprobante if this is the first record
+                self.serie = f'{self.tipoComprobante.serieSufix}001'  # Example: F001 or B001
+                last_num = 1
+
+            self.numeroComprobante = str(last_num).zfill(8)
+        super().save(*args, **kwargs)
 
 class ComprobanteItem(models.Model):
     comprobante = models.ForeignKey(Comprobante, on_delete=models.CASCADE ,null=False)
