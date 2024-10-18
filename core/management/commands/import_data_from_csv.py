@@ -6,6 +6,8 @@ from django.db.utils import IntegrityError
 class Command(BaseCommand):
     help='Load data from CSV files into the database'
     
+    
+    
     def handle(self, *args, **options):
         with open('core/management/commands/csv/tipo_moneda.csv', newline='') as csvFile:
             reader = csv.DictReader(csvFile)
@@ -34,7 +36,7 @@ class Command(BaseCommand):
             for row in reader:
                 try:
                     if not Catalogo01TipoDocumento.objects.filter(codigo = row['Codigo']).exists():
-                        Catalogo01TipoDocumento.objects.create(codigo=row['Codigo'], tipo=row['Tipo'],un_1001=row["Descripcion"],serieSufix=row["F"])
+                        Catalogo01TipoDocumento.objects.create(codigo=row['Codigo'], descripcion=row['Descripcion'],un_1001=row["UN_1001"],serieSufix=row["serieSufix"])
                 except IntegrityError:
                     pass
         self.stdout.write(self.style.SUCCESS('Successfully loaded tipo_comprobante data.'))
