@@ -67,10 +67,10 @@ class Command(BaseCommand):
                     pass
         self.stdout.write(self.style.SUCCESS('Successfully loaded ubigeo data.'))
         
-        TipoPago.objects.create(nombre='Efectivo')
-        TipoPago.objects.create(nombre='Tarjeta')
-        TipoPago.objects.create(nombre='Transferencia')
-        TipoPago.objects.create(nombre='Movil (Yape,Plin,etc)')
+        TipoPago.objects.create(name='Efectivo')
+        TipoPago.objects.create(name='Tarjeta')
+        TipoPago.objects.create(name='Transferencia')
+        TipoPago.objects.create(name='Movil (Yape,Plin,etc)')
         
-        TipoOperacion.objects.create(nombre='Contado')
-        TipoOperacion.objects.create(nombre='Credito')
+        TipoOperacion.objects.create(name='Contado')
+        TipoOperacion.objects.create(name='Credito')
