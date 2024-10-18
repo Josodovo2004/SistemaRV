@@ -1,6 +1,6 @@
 import csv
 from django.core.management.base import BaseCommand
-from core.models import Catalogo01TipoDocumento, Catalogo06DocumentoIdentidad, CodigoMoneda, CodigoPais
+from core.models import Catalogo01TipoDocumento, Catalogo06DocumentoIdentidad, CodigoMoneda, CodigoPais, Ubigeo, TipoOperacion, TipoPago
 from django.db.utils import IntegrityError
 
 class Command(BaseCommand):
@@ -51,3 +51,26 @@ class Command(BaseCommand):
                 except IntegrityError:
                     pass
         self.stdout.write(self.style.SUCCESS('Successfully loaded tipo_documento data.'))
+        
+        with open('core/management/commands/csv/ubigeo.csv', newline='') as csvFile:
+            reader = csv.DictReader(csvFile, delimiter=';')  # Adjust for semicolon delimiter
+            for row in reader:
+                try:
+                    if not Ubigeo.objects.filter(codigo=row['ubigeo_inei']).exists():
+                        Ubigeo.objects.create(
+                            codigo=row['ubigeo_inei'], 
+                            distrito=row['distrito'], 
+                            provincia=row['provincia'], 
+                            departamento=row['departamento']
+                        )
+                except IntegrityError:
+                    pass
+        self.stdout.write(self.style.SUCCESS('Successfully loaded ubigeo data.'))
+        
+        TipoPago.objects.create(nombre='Efectivo')
+        TipoPago.objects.create(nombre='Tarjeta')
+        TipoPago.objects.create(nombre='Transferencia')
+        TipoPago.objects.create(nombre='Movil (Yape,Plin,etc)')
+        
+        TipoOperacion.objects.create(nombre='Contado')
+        TipoOperacion.objects.create(nombre='Credito')
