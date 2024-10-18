@@ -69,9 +69,9 @@ class Catalogo51TipoDeOperacion(models.Model):
 
 class Ubigeo(models.Model):
     codigo = models.CharField(max_length=10, null=False)
-    distrito = models.CharField(max_length=32, null=False)
-    provincia = models.CharField(max_length=32, null=False)
-    departamento = models.CharField(max_length=32, null=False)
+    distrito = models.CharField(max_length=100, null=False)
+    provincia = models.CharField(max_length=100, null=False)
+    departamento = models.CharField(max_length=100, null=False)
     def __str__(self) -> str:
         return f'{self.distrito} {self.provincia} {self.departamento}'
 
