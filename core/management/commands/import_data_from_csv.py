@@ -52,7 +52,7 @@ class Command(BaseCommand):
                     pass
         self.stdout.write(self.style.SUCCESS('Successfully loaded tipo_documento data.'))
         
-        with open('core/management/commands/csv/ubigeo.csv', newline='') as csvFile:
+        with open('core/management/commands/csv/TB_UBIGEOS.csv', newline='') as csvFile:
             reader = csv.DictReader(csvFile, delimiter=';')  # Adjust for semicolon delimiter
             for row in reader:
                 try:
