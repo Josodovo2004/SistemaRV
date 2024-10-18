@@ -12,7 +12,7 @@ class Command(BaseCommand):
             for row in reader:
                 try:
                     if not CodigoMoneda.objects.filter(codigo = row['codigo']).exists():
-                        CodigoMoneda.objects.create(codigo=row['codigo'], moneda=row['moneda'])
+                        CodigoMoneda.objects.create(codigo=row['codigo'], moneda=row['Moneda'])
                 except IntegrityError:
                     pass
         self.stdout.write(self.style.SUCCESS('Successfully loaded tipo_moneda data.'))
