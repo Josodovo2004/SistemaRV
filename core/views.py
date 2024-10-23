@@ -3,12 +3,14 @@ from django.http import response
 from .models import (
     Entidad,
     Comprobante,
-    ComprobanteItem
+    ComprobanteItem,
+    Ubigeo,
 )
 from .serializers import (
     EntidadSerializer,
     ComprobanteSerializer,
-    ComprobanteItemSerializer
+    ComprobanteItemSerializer,
+    UbigeoSerializer,
 )
 from rest_framework.response import Response # type: ignore
 from rest_framework.decorators import api_view # type: ignore
@@ -17,7 +19,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from SistemaRV.decorators import jwt_required
 from SistemaRV.decorators import CustomJWTAuthentication
-from .filters import EntidadFilter, ComprobanteFilter
+from .filters import EntidadFilter, ComprobanteFilter, UbigeoFilter
 from django_filters.rest_framework import DjangoFilterBackend
 # CRUD views for Entidad
 
@@ -114,6 +116,17 @@ class ComprobanteItemRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPI
         return super().delete(request, *args, **kwargs)
 
 
+class UbigeoListCreateView(generics.ListCreateAPIView):
+    queryset = Ubigeo.objects.all()
+    serializer_class = UbigeoSerializer
+    authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
+    permission_classes = []  # No permission class needed
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = UbigeoFilter
+    
+    @jwt_required
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
 @swagger_auto_schema(

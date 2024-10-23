@@ -85,23 +85,28 @@ class EmicionResumenTestCase(TestCase):
 
         ComprobanteItem.objects.create(
             comprobante=self.comprobante1,
-            codigoItem=1,
+            codigoItem=4,
+            cantidad=5
+        )
+        ComprobanteItem.objects.create(
+            comprobante=self.comprobante1,
+            codigoItem=3,
             cantidad=5
         )
         ComprobanteItem.objects.create(
             comprobante=self.comprobante2,
-            codigoItem=1,
+            codigoItem=4,
             cantidad=5
         )
         ComprobanteItem.objects.create(
             comprobante=self.comprobante3,
-            codigoItem=2,
+            codigoItem=3,
             cantidad=5
         )
 
     def test_emicionDeResumen(self):
         # Trigger the function directly
-        result = async_to_sync(emicionDeResumen)(None)  # Passing None to simulate today's comprobantes
+        result = emicionDeResumen(None)  # Passing None to simulate today's comprobantes
 
         # Check if the task completed successfully
         self.assertTrue(result, "Function did not complete successfully")
