@@ -80,7 +80,7 @@ class Command(BaseCommand):
                 TipoOperacion.objects.create(name=value)
 
         
-        with open('catalogo09.csv', newline='', encoding='utf-8') as csvfile:
+        with open('core/management/commands/csv/catalogo09.csv', newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 try:
@@ -97,7 +97,7 @@ class Command(BaseCommand):
                     pass
         self.stdout.write(self.style.SUCCESS('Successfully loaded Catalogo09 data'))
         
-        with open('catalogo10.csv', newline='', encoding='utf-8') as csvfile:
+        with open('core/management/commands/csv/catalogo10.csv', newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 try:
@@ -115,7 +115,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully loaded Catalogo10 data'))
         
         
-        with open('catalogo51.csv', newline='', encoding='utf-8') as csvfile:
+        with open('core/management/commands/csv/catalogo51.csv', newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 try:
