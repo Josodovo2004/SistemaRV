@@ -13,6 +13,11 @@ from .models import (
     Entidad,
     Comprobante,
     ComprobanteItem,
+    Catalogo51TipoDeOperacion,
+    Catalogo09TipoNotaDeCredito,
+    Catalogo10TipoNotaDeDebito,
+    NotaCredito,
+    NotaDebito,
 )
 import boto3
 from django.conf import settings
@@ -115,3 +120,30 @@ class ComprobanteItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ComprobanteItem
         fields = '__all__'
+        
+        
+
+class Catalogo09TipoNotaDeCreditoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Catalogo09TipoNotaDeCredito
+        fields = ['codigo', 'descripcion']
+
+class Catalogo10TipoNotaDeDebitoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Catalogo10TipoNotaDeDebito
+        fields = ['codigo', 'descripcion']
+
+class Catalogo51TipoDeOperacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Catalogo51TipoDeOperacion
+        fields = ['codigo', 'descripcion', 'tipoComprobante']
+
+class NotaCreditoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NotaCredito
+        fields = ['serie', 'numeroNota', 'comprobante', 'fechaEmision', 'tipo']
+
+class NotaDebitoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NotaDebito
+        fields = ['serie', 'numeroNota', 'comprobante', 'fechaEmision', 'tipo']

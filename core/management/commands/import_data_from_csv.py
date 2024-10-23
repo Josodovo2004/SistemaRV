@@ -1,6 +1,6 @@
 import csv
 from django.core.management.base import BaseCommand
-from core.models import Catalogo01TipoDocumento, Catalogo06DocumentoIdentidad, CodigoMoneda, CodigoPais, Ubigeo, TipoOperacion, TipoPago
+from core.models import Catalogo01TipoDocumento, Catalogo06DocumentoIdentidad, CodigoMoneda, CodigoPais, Ubigeo, TipoOperacion, TipoPago, Catalogo09TipoNotaDeCredito, Catalogo10TipoNotaDeDebito, Catalogo51TipoDeOperacion
 from django.db.utils import IntegrityError
 
 class Command(BaseCommand):
@@ -67,10 +67,69 @@ class Command(BaseCommand):
                     pass
         self.stdout.write(self.style.SUCCESS('Successfully loaded ubigeo data.'))
         
-        TipoPago.objects.create(name='Efectivo')
-        TipoPago.objects.create(name='Tarjeta')
-        TipoPago.objects.create(name='Transferencia')
-        TipoPago.objects.create(name='Movil (Yape,Plin,etc)')
+        tipoPagos=['Efectivo', 'Tarjeta', 'Transferencia', 'Movil (Yape,Plin,etc)']
         
-        TipoOperacion.objects.create(name='Contado')
-        TipoOperacion.objects.create(name='Credito')
+        for value in tipoPagos:
+            if not TipoPago.objects.filter(name=value).exists():
+                TipoPago.objects.create(name=value)
+        
+        tipoOperaciones=['Contado', 'Credito']
+        
+        for value in tipoOperaciones:
+            if not TipoOperacion.objects.filter(name=value).exists():
+                TipoOperacion.objects.create(name=value)
+
+        
+        with open('catalogo09.csv', newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                try:
+                    if not Catalogo09TipoNotaDeCredito.objects.filter(codigo=row['codigo']).exists():
+                        codigo = row['codigo']
+                        descripcion = row['descripcion']
+
+                        # Create or update the record in the database
+                        Catalogo09TipoNotaDeCredito.objects.update_or_create(
+                            codigo=codigo,
+                            defaults={'descripcion': descripcion},
+                        )
+                except IntegrityError:
+                    pass
+        self.stdout.write(self.style.SUCCESS('Successfully loaded Catalogo09 data'))
+        
+        with open('catalogo10.csv', newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                try:
+                    if not Catalogo10TipoNotaDeDebito.objects.filter(codigo=row['codigo']).exists():
+                        codigo = row['codigo']
+                        descripcion = row['descripcion']
+
+                        # Create or update the record in the database
+                        Catalogo10TipoNotaDeDebito.objects.update_or_create(
+                            codigo=codigo,
+                            defaults={'descripcion': descripcion},
+                        )
+                except IntegrityError:
+                    pass
+        self.stdout.write(self.style.SUCCESS('Successfully loaded Catalogo10 data'))
+        
+        
+        with open('catalogo51.csv', newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                try:
+                    if not Catalogo51TipoDeOperacion.objects.filter(codigo=row['codigo']).exists():
+                        codigo = row['codigo']
+                        descripcion = row['descripcion']
+                        tipoComprobante = row['tipoComprobante']
+
+                        # Create or update the record in the database
+                        Catalogo51TipoDeOperacion.objects.update_or_create(
+                            codigo=codigo,
+                            defaults={'descripcion': descripcion, 'tipoComprobante': tipoComprobante},
+                        )
+                except IntegrityError:
+                    pass
+
+        self.stdout.write(self.style.SUCCESS('Successfully loaded Catalogo51 data'))

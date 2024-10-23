@@ -1,0 +1,25 @@
+codigo,descripcion,tipoComprobante
+0101,Venta interna,"Factura, Boletas"
+0102,Venta Interna – Anticipos,"Factura, Boletas"
+0103,Venta interna - Itinerante,"Factura, Boletas"
+0110,Venta Interna - Sustenta Traslado de Mercadería - Remitente,"Factura, Boletas"
+0111,Venta Interna - Sustenta Traslado de Mercadería - Transportista,"Factura, Boletas"
+0112,Venta Interna - Sustenta Gastos Deducibles Persona Natural,Factura
+0120,Venta Interna - Sujeta al IVAP,"Factura, Boletas"
+0121,Venta Interna - Sujeta al FISE,Todos
+0122,Venta Interna - Sujeta a otros impuestos,Todos
+0130,Venta Interna - Realizadas al Estado,"Factura, Boletas"
+0200,Exportación de Bienes,"Factura, Boletas"
+0201,Exportación de Servicios – Prestación servicios realizados,"Factura, Boletas"
+0202,Exportación de Servicios – Prestación de servicios de hospedaje No Domiciliado,"Factura, Boletas"
+0203,Exportación de Servicios – Transporte de navieras,"Factura, Boletas"
+0204,Exportación de Servicios – Servicios a naves y aeronaves de bandera extranjera,"Factura, Boletas"
+0205,Exportación de Servicios - Servicios que conformen un Paquete Turístico,"Factura, Boletas"
+0206,Exportación de Servicios – Servicios complementarios al transporte de carga,"Factura, Boletas"
+0207,Exportación de Servicios – Suministro de energía eléctrica a favor de sujetos domiciliados en ZED,"Factura, Boletas"
+0208,Exportación de Servicios – Prestación servicios realizados parcialmente en el extranjero,"Factura, Boletas"
+0301,Operaciones con Carta de porte aéreo (emitidas en el ámbito nacional),"Factura, Boletas"
+0302,Operaciones de Transporte ferroviario de pasajeros,"Factura, Boletas"
+0303,Operaciones de Pago de regalía petrolera,"Factura, Boletas"
+1001,Operación Sujeta a Detracción,"Factura, Boletas"
+1002,Operación Sujeta a Detracción- Recursos Hidrobiológicos,"Factura, Boletas"
