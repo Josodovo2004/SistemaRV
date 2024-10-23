@@ -116,6 +116,11 @@ class TipoPago(models.Model):
     def __str__(self):
         return self.name
 
+class TipoOperacion(models.Model):
+    name=models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 class Comprobante(models.Model):
     emisor = models.ForeignKey(Entidad, on_delete=models.DO_NOTHING, null=False, related_name='comprobantes_emitidos')

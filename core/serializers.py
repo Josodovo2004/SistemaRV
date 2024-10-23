@@ -18,6 +18,8 @@ from .models import (
     Catalogo10TipoNotaDeDebito,
     NotaCredito,
     NotaDebito,
+    TipoOperacion,
+    TipoPago,
 )
 import boto3
 from django.conf import settings
@@ -147,3 +149,14 @@ class NotaDebitoSerializer(serializers.ModelSerializer):
     class Meta:
         model = NotaDebito
         fields = ['serie', 'numeroNota', 'comprobante', 'fechaEmision', 'tipo']
+        
+        
+class TipoPagoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoPago
+        fields = '__all__'  # Include all fields in the serialization
+
+class TipoOperacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoOperacion
+        fields = '__all__'  # Include all fields in the serialization
