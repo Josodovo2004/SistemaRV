@@ -68,7 +68,7 @@ class Catalogo10TipoNotaDeDebito(models.Model):
     descripcion = models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True)  # Field name made lowercase.
 
 class Catalogo51TipoDeOperacion(models.Model):
-    codigo = models.CharField(db_column='Codigo', max_length=2,primary_key =True, default='')  # Field name made lowercase.
+    codigo = models.CharField(db_column='Codigo', max_length=4,primary_key =True, default='')  # Field name made lowercase.
     descripcion = models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True)  # Field name made lowercase.
     tipoComprobante = models.CharField(max_length=100, null=True)
 
