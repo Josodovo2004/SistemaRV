@@ -24,11 +24,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='estadodocumento',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
-        ),
-        migrations.AlterField(
-            model_name='estadodocumento',
             name='nombre',
             field=models.CharField(db_column='nombre', max_length=50, null=True),
         ),

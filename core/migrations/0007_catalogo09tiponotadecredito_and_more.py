@@ -13,6 +13,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Catalogo51TipoDeOperacion',
+            fields=[
+                ('codigo', models.CharField(db_column='Codigo', max_length=2, primary_key=True)),
+                ('descripcion', models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True)),
+                ('tipoComprobante', models.CharField(max_length=100, null=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Catalogo09TipoNotaDeCredito',
             fields=[
                 ('codigo', models.CharField(db_column='Codigo', max_length=2, primary_key=True, serialize=False)),
@@ -46,25 +54,6 @@ class Migration(migrations.Migration):
         ),
         migrations.DeleteModel(
             name='Catalogo07TiposDeAfectacionDelIGV',
-        ),
-        migrations.RemoveField(
-            model_name='catalogo51tipodeoperacion',
-            name='id',
-        ),
-        migrations.AddField(
-            model_name='catalogo51tipodeoperacion',
-            name='codigo',
-            field=models.CharField(db_column='Codigo', default='', max_length=2, primary_key=True, serialize=False),
-        ),
-        migrations.AddField(
-            model_name='catalogo51tipodeoperacion',
-            name='descripcion',
-            field=models.CharField(blank=True, db_column='Descripcion', max_length=200, null=True),
-        ),
-        migrations.AddField(
-            model_name='catalogo51tipodeoperacion',
-            name='tipoComprobante',
-            field=models.CharField(max_length=100, null=True),
         ),
         migrations.AlterField(
             model_name='comprobante',
