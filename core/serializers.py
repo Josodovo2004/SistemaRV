@@ -3,9 +3,6 @@ from .models import (
     Catalogo01TipoDocumento,
     Catalogo06DocumentoIdentidad,
     EstadoDocumento,
-    Usuario,
-    Cliente,
-    
     Catalogo15ElementosAdicionales,
     Ubigeo,
     CodigoPais,
@@ -37,17 +34,6 @@ class Catalogo06DocumentoIdentidadSerializer(serializers.ModelSerializer):
 class EstadoDocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = EstadoDocumento
-        fields = '__all__'
-
-class UsuarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Usuario
-        fields = '__all__'
-
-
-class ClienteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Cliente
         fields = '__all__'
 
 

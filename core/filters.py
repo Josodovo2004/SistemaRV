@@ -1,6 +1,23 @@
 import django_filters
-from .models import Entidad, Comprobante, Ubigeo, Catalogo09TipoNotaDeCredito, Catalogo10TipoNotaDeDebito, NotaCredito, NotaDebito, Catalogo51TipoDeOperacion
-
+from .models import (
+    Catalogo01TipoDocumento,
+    Catalogo06DocumentoIdentidad,
+    EstadoDocumento,
+    Catalogo15ElementosAdicionales,
+    CodigoPais,
+    CodigoMoneda,
+    TipoPago,
+    TipoOperacion,
+    ComprobanteItem,
+    Entidad, 
+    Comprobante,
+    Ubigeo,
+    Catalogo09TipoNotaDeCredito,
+    Catalogo10TipoNotaDeDebito,
+    NotaCredito,
+    NotaDebito,
+    Catalogo51TipoDeOperacion,
+)
 class EntidadFilter(django_filters.FilterSet):
     numeroDocumento = django_filters.CharFilter(lookup_expr='icontains')
     razonSocial = django_filters.CharFilter(lookup_expr='icontains')
@@ -81,3 +98,83 @@ class NotaDebitoFilter(django_filters.FilterSet):
     class Meta:
         model = NotaDebito
         fields = ['serie', 'numeroNota', 'fechaEmision', 'tipo']
+        
+        
+
+class Catalogo01TipoDocumentoFilter(django_filters.FilterSet):
+    codigo = django_filters.CharFilter(lookup_expr='icontains')
+    descripcion = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = Catalogo01TipoDocumento
+        fields = ['codigo', 'descripcion', 'serieSufix']
+
+
+class Catalogo06DocumentoIdentidadFilter(django_filters.FilterSet):
+    codigo = django_filters.CharFilter(lookup_expr='icontains')
+    descripcion = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = Catalogo06DocumentoIdentidad
+        fields = ['codigo', 'descripcion', 'abrev']
+
+
+class EstadoDocumentoFilter(django_filters.FilterSet):
+    nombre = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = EstadoDocumento
+        fields = ['nombre']
+
+
+class Catalogo15ElementosAdicionalesFilter(django_filters.FilterSet):
+    codigo = django_filters.CharFilter(lookup_expr='icontains')
+    tipo = django_filters.CharFilter(lookup_expr='icontains')
+    descripcion = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = Catalogo15ElementosAdicionales
+        fields = ['codigo', 'tipo', 'descripcion']
+
+
+class CodigoPaisFilter(django_filters.FilterSet):
+    codigo = django_filters.CharFilter(lookup_expr='icontains')
+    pais = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = CodigoPais
+        fields = ['codigo', 'pais']
+
+
+class CodigoMonedaFilter(django_filters.FilterSet):
+    codigo = django_filters.CharFilter(lookup_expr='icontains')
+    moneda = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = CodigoMoneda
+        fields = ['codigo', 'moneda']
+
+
+class TipoPagoFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = TipoPago
+        fields = ['name']
+
+
+class TipoOperacionFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = TipoOperacion
+        fields = ['name']
+
+
+class ComprobanteItemFilter(django_filters.FilterSet):
+    codigoItem = django_filters.NumberFilter()
+    cantidad = django_filters.NumberFilter()
+
+    class Meta:
+        model = ComprobanteItem
+        fields = ['codigoItem', 'cantidad']

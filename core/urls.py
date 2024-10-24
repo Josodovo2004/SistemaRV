@@ -11,7 +11,23 @@ from .views import (
     Catalogo10TipoNotaDeDebitoListCreateView, Catalogo10TipoNotaDeDebitoRetrieveUpdateDestroyView,
     Catalogo51TipoDeOperacionListCreateView, Catalogo51TipoDeOperacionRetrieveUpdateDestroyView,
     NotaCreditoListCreateView, NotaCreditoRetrieveUpdateDestroyView,
-    NotaDebitoListCreateView, NotaDebitoRetrieveUpdateDestroyView
+    NotaDebitoListCreateView, NotaDebitoRetrieveUpdateDestroyView,
+    Catalogo01TipoDocumentoListCreateView,
+    Catalogo01TipoDocumentoRetrieveUpdateDestroyView,
+    Catalogo06DocumentoIdentidadListCreateView,
+    Catalogo06DocumentoIdentidadRetrieveUpdateDestroyView,
+    EstadoDocumentoListCreateView,
+    EstadoDocumentoRetrieveUpdateDestroyView,
+    Catalogo15ElementosAdicionalesListCreateView,
+    Catalogo15ElementosAdicionalesRetrieveUpdateDestroyView,
+    CodigoPaisListCreateView,
+    CodigoPaisRetrieveUpdateDestroyView,
+    CodigoMonedaListCreateView,
+    CodigoMonedaRetrieveUpdateDestroyView,
+    TipoPagoListCreateView,
+    TipoPagoRetrieveUpdateDestroyView,
+    TipoOperacionListCreateView,
+    TipoOperacionRetrieveUpdateDestroyView,
 )
 
 urlpatterns = [
@@ -43,4 +59,40 @@ urlpatterns = [
     
     path('nota-debito/', NotaDebitoListCreateView.as_view(), name='nota-debito-list-create'),
     path('nota-debito/<pk>/', NotaDebitoRetrieveUpdateDestroyView.as_view(), name='nota-debito-detail'),
+    
+     # Catalogo01TipoDocumento URLs
+    path('catalogo01/', Catalogo01TipoDocumentoListCreateView.as_view(), name='catalogo01-list-create'),
+    path('catalogo01/<pk>/', Catalogo01TipoDocumentoRetrieveUpdateDestroyView.as_view(), name='catalogo01-detail'),
+
+    # Catalogo06DocumentoIdentidad URLs
+    path('catalogo06/', Catalogo06DocumentoIdentidadListCreateView.as_view(), name='catalogo06-list-create'),
+    path('catalogo06/<pk>/', Catalogo06DocumentoIdentidadRetrieveUpdateDestroyView.as_view(), name='catalogo06-detail'),
+
+    # EstadoDocumento URLs
+    path('estado-documento/', EstadoDocumentoListCreateView.as_view(), name='estado-documento-list-create'),
+    path('estado-documento/<pk>/', EstadoDocumentoRetrieveUpdateDestroyView.as_view(), name='estado-documento-detail'),
+
+    # Catalogo15ElementosAdicionales URLs
+    path('catalogo15/', Catalogo15ElementosAdicionalesListCreateView.as_view(), name='catalogo15-list-create'),
+    path('catalogo15/<pk>/', Catalogo15ElementosAdicionalesRetrieveUpdateDestroyView.as_view(), name='catalogo15-detail'),
+
+    # CodigoPais URLs
+    path('codigo-pais/', CodigoPaisListCreateView.as_view(), name='codigo-pais-list-create'),
+    path('codigo-pais/<pk>/', CodigoPaisRetrieveUpdateDestroyView.as_view(), name='codigo-pais-detail'),
+
+    # CodigoMoneda URLs
+    path('codigo-moneda/', CodigoMonedaListCreateView.as_view(), name='codigo-moneda-list-create'),
+    path('codigo-moneda/<pk>/', CodigoMonedaRetrieveUpdateDestroyView.as_view(), name='codigo-moneda-detail'),
+
+    # TipoPago URLs
+    path('tipo-pago/', TipoPagoListCreateView.as_view(), name='tipo-pago-list-create'),
+    path('tipo-pago/<pk>/', TipoPagoRetrieveUpdateDestroyView.as_view(), name='tipo-pago-detail'),
+
+    # TipoOperacion URLs
+    path('tipo-operacion/', TipoOperacionListCreateView.as_view(), name='tipo-operacion-list-create'),
+    path('tipo-operacion/<pk>/', TipoOperacionRetrieveUpdateDestroyView.as_view(), name='tipo-operacion-detail'),
+
+    # ComprobanteItem URLs
+    path('comprobante-item/', ComprobanteItemListCreateView.as_view(), name='comprobante-item-list-create'),
+    path('comprobante-item/<pk>/', ComprobanteItemRetrieveUpdateDestroyView.as_view(), name='comprobante-item-detail'),
 ]

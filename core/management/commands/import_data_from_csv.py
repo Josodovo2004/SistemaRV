@@ -1,6 +1,6 @@
 import csv
 from django.core.management.base import BaseCommand
-from core.models import Catalogo01TipoDocumento, Catalogo06DocumentoIdentidad, CodigoMoneda, CodigoPais, Ubigeo, TipoOperacion, TipoPago, Catalogo09TipoNotaDeCredito, Catalogo10TipoNotaDeDebito, Catalogo51TipoDeOperacion
+from core.models import Catalogo01TipoDocumento, Catalogo06DocumentoIdentidad, CodigoMoneda, CodigoPais, Ubigeo, TipoOperacion, TipoPago, Catalogo09TipoNotaDeCredito, Catalogo10TipoNotaDeDebito, Catalogo51TipoDeOperacion, EstadoDocumento
 from django.db.utils import IntegrityError
 
 class Command(BaseCommand):
@@ -73,12 +73,19 @@ class Command(BaseCommand):
             if not TipoPago.objects.filter(name=value).exists():
                 TipoPago.objects.create(name=value)
         
+        
         tipoOperaciones=['Contado', 'Credito']
         
         for value in tipoOperaciones:
             if not TipoOperacion.objects.filter(name=value).exists():
                 TipoOperacion.objects.create(name=value)
 
+        estadoDocumento = ['Emitido', 'Rechazado', 'No Emitido']
+        
+        for value in estadoDocumento:
+            if not EstadoDocumento.objects.filter(nombre=value).exists():
+                EstadoDocumento.objects.create(nombre=value)
+                
         
         with open('core/management/commands/csv/catalogo09.csv', newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)

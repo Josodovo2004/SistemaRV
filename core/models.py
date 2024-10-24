@@ -14,7 +14,6 @@ class Catalogo01TipoDocumento(models.Model):
     def __str__(self):
         return self.descripcion
 
-
 class Catalogo06DocumentoIdentidad(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=1, primary_key=True)  # Field name made lowercase.
     descripcion = models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True)  # Field name made lowercase.
@@ -24,32 +23,12 @@ class Catalogo06DocumentoIdentidad(models.Model):
     def __str__(self):
         return self.descripcion
     
-
-
 class EstadoDocumento(models.Model):
-    id= models.CharField(db_column='id',  max_length=2,primary_key=True)  # Field name made lowercase.
-    nombre= models.CharField(db_column='nombre',  max_length=50,null=True,blank=True)
+    nombre= models.CharField(db_column='nombre',  max_length=50,null=True)
     class Meta:
         db_table = 'ESTADO_DOCUMENTO'
     def __str__(self):
         return self.nombre
-
-class Usuario(models.Model):
-    numDocUsuario = models.CharField(primary_key=True,max_length=15)
-    rznSocialUsuario = models.CharField(max_length=100, null=True, blank=True)
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.rznSocialUsuario
-
-class Cliente(models.Model):
-    cfcodcli = models.CharField(db_column='CFCODCLI', max_length=11, primary_key=True)  # Field name made lowercase.
-    cfnombre = models.CharField(db_column='CFNOMBRE', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    direccion_receptor = models.CharField(db_column='DIRECCION_RECEPTOR', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    correo = models.EmailField(db_column='CORREO', max_length=200, blank=True, null=True)  # Field name made lowercase.
-    class Meta:
-        managed = True
-        db_table = 'CLIENTE'
 
 class Catalogo15ElementosAdicionales(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=4,primary_key =True)  # Field name made lowercase.
@@ -94,9 +73,6 @@ class CodigoMoneda(models.Model):
     def __str__(self) -> str:
         return self.moneda
 
-from django.db import models
-
-
 class Entidad(models.Model):
     numeroDocumento = models.CharField(max_length=11, null=False)
     tipoDocumento = models.ForeignKey(Catalogo06DocumentoIdentidad, on_delete=models.CASCADE, null=False)
@@ -132,6 +108,7 @@ class Comprobante(models.Model):
     numeroComprobante = models.CharField(max_length=8, null=False)
     fechaEmision = models.DateField(default=tm.now, null=True)
     codigoMoneda = models.ForeignKey(CodigoMoneda, on_delete=models.DO_NOTHING, null=True)
+    estado = models.ForeignKey(EstadoDocumento, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return f'{self.emisor.razonSocial}-{self.adquiriente.razonSocial}-{self.fechaEmision}-{self.serie}-{self.numeroComprobante}'
