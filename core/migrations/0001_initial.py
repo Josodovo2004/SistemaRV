@@ -91,7 +91,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EstadoDocumento',
             fields=[
-                ('id', models.CharField(db_column='id', max_length=2, primary_key=True, serialize=False)),
+                ('id', models.BigAutoField(db_column='id', primary_key=True, serialize=False, verbose_name='ID')),
                 ('nombre', models.CharField(blank=True, db_column='nombre', max_length=50, null=True)),
             ],
             options={
