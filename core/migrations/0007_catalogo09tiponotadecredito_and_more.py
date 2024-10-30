@@ -12,14 +12,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Catalogo51TipoDeOperacion',
-            fields=[
-                ('codigo', models.CharField(db_column='Codigo', max_length=2, primary_key=True)),
-                ('descripcion', models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True)),
-                ('tipoComprobante', models.CharField(max_length=100, null=True)),
-            ],
-        ),
+
         migrations.CreateModel(
             name='Catalogo09TipoNotaDeCredito',
             fields=[
@@ -88,4 +81,25 @@ class Migration(migrations.Migration):
             name='tipo',
             field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='core.catalogo09tiponotadecredito'),
         ),
+        migrations.AddField(
+            model_name='Catalogo51TipoDeOperacion',
+            name = 'codigo',
+            field = models.CharField(db_column='Codigo', max_length=2, primary_key=True),
+        ),
+        migrations.RemoveField(
+            model_name="Catalogo51TipoDeOperacion",
+            name="id",
+        ),
+        
+        migrations.AddField(
+            model_name='Catalogo51TipoDeOperacion',
+            name = 'descripcion',
+            field =  models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True),
+        ),
+        migrations.AddField(
+            model_name='Catalogo51TipoDeOperacion',
+            name = 'tipoComprobante',
+            field = models.CharField(max_length=100, null=True),
+        ),
+        
     ]
