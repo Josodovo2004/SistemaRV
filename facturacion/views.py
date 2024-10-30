@@ -66,7 +66,7 @@ def emicionDeResumen(*args):
 
                 itemData =  serialized_items.data
                 print('waiting...')
-                newItemData: Response = requests.post('http://localhost:8000/api/resumen/', json=itemData)
+                newItemData: Response = requests.post('http://localhost:8001/api/resumen/', json=itemData)
                 print(newItemData.json())
                 
                 newItemData = newItemData.json()
@@ -77,8 +77,10 @@ def emicionDeResumen(*args):
                     for impuesto in value['tax']:
                         if value['tax'][impuesto]['name']  not in tax.keys():
                             tax[impuesto] = value['tax'][impuesto]
+                            newDocumento['tax_amount'] += value['tax'][impuesto]['tax_amount']
                         else:
                             tax[impuesto]['tax_amount'] += value['tax'][impuesto]['tax_amount']
+                            newDocumento['tax_amount'] += value['tax'][impuesto]['tax_amount']
                 newDocumento['tax'] = tax
                 
                 print(newDocumento)
@@ -87,13 +89,14 @@ def emicionDeResumen(*args):
             except Exception as e:
                 print(e)
         
-        sunatResponse: Response = requests.post('http://localhost:8001/api/resumen_diario/', json=data)
+        sunatResponse: Response = requests.post('http://localhost:8002/api/resumen_diario/', json=data)
         
         if sunatResponse.status_code == 200:
             print(sunatResponse.json())
             return True
         else:
             print(sunatResponse.status_code)
+            print(sunatResponse.content)
         
         return True
                 

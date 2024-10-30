@@ -82,7 +82,6 @@ class EmicionResumenTestCase(TestCase):
             fechaEmision=date.today(),
             codigoMoneda=self.codigo_moneda
         )
-
         ComprobanteItem.objects.create(
             comprobante=self.comprobante1,
             codigoItem=4,

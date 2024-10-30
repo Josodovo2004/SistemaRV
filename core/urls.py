@@ -28,6 +28,7 @@ from .views import (
     TipoPagoRetrieveUpdateDestroyView,
     TipoOperacionListCreateView,
     TipoOperacionRetrieveUpdateDestroyView,
+    GeneratePresignedUrlView,
 )
 
 urlpatterns = [
@@ -95,4 +96,6 @@ urlpatterns = [
     # ComprobanteItem URLs
     path('comprobante-item/', ComprobanteItemListCreateView.as_view(), name='comprobante-item-list-create'),
     path('comprobante-item/<pk>/', ComprobanteItemRetrieveUpdateDestroyView.as_view(), name='comprobante-item-detail'),
+    
+    path('generate-presigned-url/', GeneratePresignedUrlView.as_view(), name='generate-presigned-url'),
 ]

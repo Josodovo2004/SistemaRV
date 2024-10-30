@@ -111,7 +111,7 @@ class Comprobante(models.Model):
     estado = models.ForeignKey(EstadoDocumento, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
-        return f'{self.emisor.razonSocial}-{self.adquiriente.razonSocial}-{self.fechaEmision}-{self.serie}-{self.numeroComprobante}'
+        return f"{self.emisor.razonSocial}-{self.adquiriente.razonSocial}-{self.fechaEmision}-{self.serie}-{self.numeroComprobante}"
 
     def save(self, *args, **kwargs):
         if not self.serie or not self.numeroComprobante:
