@@ -81,15 +81,16 @@ class Migration(migrations.Migration):
             name='tipo',
             field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='core.catalogo09tiponotadecredito'),
         ),
+        migrations.RemoveField(
+            model_name="Catalogo51TipoDeOperacion",
+            name="id",
+        ),
         migrations.AddField(
             model_name='Catalogo51TipoDeOperacion',
             name = 'codigo',
             field = models.CharField(db_column='Codigo', max_length=2, primary_key=True),
         ),
-        migrations.RemoveField(
-            model_name="Catalogo51TipoDeOperacion",
-            name="id",
-        ),
+        
         
         migrations.AddField(
             model_name='Catalogo51TipoDeOperacion',
