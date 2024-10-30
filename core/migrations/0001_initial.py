@@ -54,12 +54,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Catalogo51TipoDeOperacion',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Cliente',
             fields=[
                 ('cfcodcli', models.CharField(db_column='CFCODCLI', max_length=11, primary_key=True, serialize=False)),
