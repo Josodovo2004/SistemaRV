@@ -111,8 +111,10 @@ class Comprobante(models.Model):
     estado = models.ForeignKey(EstadoDocumento, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
-        return f"{self.emisor.razonSocial}-{self.adquiriente.razonSocial}-{self.fechaEmision}-{self.serie}-{self.numeroComprobante}"
-
+        emisor_name = self.emisor.razonSocial if self.emisor else "Unknown"
+        adquiriente_name = self.adquiriente.razonSocial if self.adquiriente else "Unknown"
+        fecha_emision = self.fechaEmision if self.fechaEmision else "NoDate"
+        return f"{emisor_name}-{adquiriente_name}-{fecha_emision}-{self.serie}-{self.numeroComprobante}"
     def save(self, *args, **kwargs):
         if not self.serie or not self.numeroComprobante:
             # Get the last issued Comprobante
