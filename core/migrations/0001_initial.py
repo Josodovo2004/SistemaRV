@@ -208,4 +208,7 @@ class Migration(migrations.Migration):
             name='tipoPago',
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='core.tipopago'),
         ),
+        migrations.DeleteModel(
+            name='Catalogo07TiposDeAfectacionDelIGV',
+        ),
     ]
