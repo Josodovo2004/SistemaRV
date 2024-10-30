@@ -31,7 +31,7 @@ class EntidadFilter(django_filters.FilterSet):
         fields = ['numeroDocumento', 'razonSocial', 'nombreComercial', 'ubigeo', 'direccion', 'codigoPais']
 
 class ComprobanteFilter(django_filters.FilterSet):
-    emisor = django_filters.CharFilter(field_name='emisor__razonSocial', lookup_expr='icontains')
+    emisor = django_filters.CharFilter(field_name='emisor__numeroDocumento', lookup_expr='icontains')
     adquiriente = django_filters.CharFilter(field_name='adquiriente__razonSocial', lookup_expr='icontains')
     tipoComprobante = django_filters.CharFilter(field_name='tipoComprobante__nombre', lookup_expr='icontains')
     serie = django_filters.CharFilter(lookup_expr='icontains')
