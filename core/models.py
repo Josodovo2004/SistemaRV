@@ -100,7 +100,7 @@ class TipoOperacion(models.Model):
 
 class Comprobante(models.Model):
     emisor = models.ForeignKey(Entidad, on_delete=models.DO_NOTHING, null=False, related_name='comprobantes_emitidos')
-    adquiriente = models.ForeignKey(Entidad, on_delete=models.DO_NOTHING, null=False, related_name='comprobantes_recibidos')
+    adquiriente = models.ForeignKey(Entidad, on_delete=models.DO_NOTHING, null=True, related_name='comprobantes_recibidos')
     tipoComprobante = models.ForeignKey(Catalogo01TipoDocumento, on_delete=models.DO_NOTHING, null=False)
     tipoOperacion = models.ForeignKey(Catalogo51TipoDeOperacion, on_delete=models.DO_NOTHING, null=True)
     tipoPago = models.ForeignKey(TipoPago, on_delete=models.DO_NOTHING, null=True)
