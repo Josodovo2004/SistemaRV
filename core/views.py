@@ -177,22 +177,6 @@ class UbigeoListCreateView(generics.ListCreateAPIView):
         return super().post(request, *args, **kwargs)
 
 
-@swagger_auto_schema(
-    method='post',
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            'numeroDocumento': openapi.Schema(type=openapi.TYPE_STRING, description='Número de Documento del cliente'),
-        },
-        required=['numeroDocumento'],
-    ),
-    responses={
-        200: EntidadSerializer(),
-        404: 'No Encontrado',
-        400: 'Bad Request',
-    }
-)
-
 # Catalogo09TipoNotaDeCredito Views
 class Catalogo09TipoNotaDeCreditoListCreateView(generics.ListCreateAPIView):
     queryset = Catalogo09TipoNotaDeCredito.objects.all()
