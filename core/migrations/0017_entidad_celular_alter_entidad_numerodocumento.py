@@ -15,9 +15,4 @@ class Migration(migrations.Migration):
             name='celular',
             field=models.CharField(max_length=15, null=True),
         ),
-        migrations.AlterField(
-            model_name='entidad',
-            name='numeroDocumento',
-            field=models.CharField(max_length=11, unique=True),
-        ),
     ]
