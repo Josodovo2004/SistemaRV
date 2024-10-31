@@ -78,6 +78,7 @@ class Entidad(models.Model):
     tipoDocumento = models.ForeignKey(Catalogo06DocumentoIdentidad, on_delete=models.CASCADE, null=False)
     razonSocial = models.CharField(max_length=150, null=False)
     nombreComercial = models.CharField(max_length=150, null=True)
+    celular = models.CharField(max_length=15, null=True)
     ubigeo = models.ForeignKey(Ubigeo, on_delete=models.CASCADE, null=False)
     direccion = models.CharField(max_length=50, null=False)
     codigoPais = models.ForeignKey(CodigoPais, on_delete=models.CASCADE, null=False)
