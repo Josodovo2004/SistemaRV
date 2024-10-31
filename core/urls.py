@@ -30,6 +30,7 @@ from .views import (
     TipoOperacionRetrieveUpdateDestroyView,
     GeneratePresignedUrlView,
     ConsultarCliente,
+    UbigeoListCreateView,
 )
 
 urlpatterns = [
@@ -67,8 +68,8 @@ urlpatterns = [
     path('catalogo01/<pk>/', Catalogo01TipoDocumentoRetrieveUpdateDestroyView.as_view(), name='catalogo01-detail'),
 
     # Catalogo06DocumentoIdentidad URLs
-    path('catalogo06/', Catalogo06DocumentoIdentidadListCreateView.as_view(), name='catalogo06-list-create'),
-    path('catalogo06/<pk>/', Catalogo06DocumentoIdentidadRetrieveUpdateDestroyView.as_view(), name='catalogo06-detail'),
+    path('tipo-documento/', Catalogo06DocumentoIdentidadListCreateView.as_view(), name='catalogo06-list-create'),
+    path('tipo-documento/<pk>/', Catalogo06DocumentoIdentidadRetrieveUpdateDestroyView.as_view(), name='catalogo06-detail'),
 
     # EstadoDocumento URLs
     path('estado-documento/', EstadoDocumentoListCreateView.as_view(), name='estado-documento-list-create'),
@@ -97,6 +98,8 @@ urlpatterns = [
     # ComprobanteItem URLs
     path('comprobante-item/', ComprobanteItemListCreateView.as_view(), name='comprobante-item-list-create'),
     path('comprobante-item/<pk>/', ComprobanteItemRetrieveUpdateDestroyView.as_view(), name='comprobante-item-detail'),
+    
+    path('ubigeo/', UbigeoListCreateView.as_view(), name='ubigeo-list-create'),
     
     path('generate-presigned-url/', GeneratePresignedUrlView.as_view(), name='generate-presigned-url'),
     
