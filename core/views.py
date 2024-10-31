@@ -67,6 +67,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 import boto3
 from rest_framework import status
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+
 # CRUD views for Entidad
 
 class EntidadListCreateView(generics.ListCreateAPIView):
@@ -750,3 +752,17 @@ class GeneratePresignedUrlView(APIView):
             'url': presigned_url,
             'file_name': file_name
         }, status=status.HTTP_200_OK)
+        
+class ConsultarCliente(APIView):
+    
+    def get(self, request):
+        documentNumber = request.GET.get('numero_documento')  # Use request.GET for GET requests
+
+        # Check if the document number is provided
+        if not documentNumber:
+            return Response({'error': 'Número de documento es requerido'}, status=status.HTTP_400_BAD_REQUEST)
+
+        cliente = get_object_or_404(Entidad, numeroDocumento=documentNumber)
+        cliente_data = EntidadSerializer(cliente).data
+        
+        return Response(cliente_data, status=status.HTTP_200_OK)

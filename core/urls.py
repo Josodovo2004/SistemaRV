@@ -29,6 +29,7 @@ from .views import (
     TipoOperacionListCreateView,
     TipoOperacionRetrieveUpdateDestroyView,
     GeneratePresignedUrlView,
+    ConsultarCliente,
 )
 
 urlpatterns = [
@@ -98,4 +99,6 @@ urlpatterns = [
     path('comprobante-item/<pk>/', ComprobanteItemRetrieveUpdateDestroyView.as_view(), name='comprobante-item-detail'),
     
     path('generate-presigned-url/', GeneratePresignedUrlView.as_view(), name='generate-presigned-url'),
+    
+    path('consultar-cliente/', ConsultarCliente.as_view(), name='consultar-cliente'),
 ]
