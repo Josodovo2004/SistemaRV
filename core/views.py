@@ -192,26 +192,6 @@ class UbigeoListCreateView(generics.ListCreateAPIView):
         400: 'Bad Request',
     }
 )
-@api_view(['POST'])
-def buscar_cliente(request):
-    try:
-        data: dict = request.data  
-        nDocumento = data.get('numeroDocumento')  
-
-        # Buscar el cliente
-        cliente = Entidad.objects.filter(numeroDocumento=nDocumento).first()
-
-        if cliente is None:
-            return JsonResponse({'No Encontrado'}, status=404)
-
-
-        # Serializar los datos del cliente
-        serializer = EntidadSerializer(cliente)
-        return Response(serializer.data, status=200)
-
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
-
 
 # Catalogo09TipoNotaDeCredito Views
 class Catalogo09TipoNotaDeCreditoListCreateView(generics.ListCreateAPIView):

@@ -6,7 +6,6 @@ from .views import (
     ComprobanteRetrieveUpdateDestroyView,
     ComprobanteItemListCreateView,
     ComprobanteItemRetrieveUpdateDestroyView,
-    buscar_cliente,
     Catalogo09TipoNotaDeCreditoListCreateView, Catalogo09TipoNotaDeCreditoRetrieveUpdateDestroyView,
     Catalogo10TipoNotaDeDebitoListCreateView, Catalogo10TipoNotaDeDebitoRetrieveUpdateDestroyView,
     Catalogo51TipoDeOperacionListCreateView, Catalogo51TipoDeOperacionRetrieveUpdateDestroyView,
@@ -45,8 +44,6 @@ urlpatterns = [
     # URLs for ComprobanteItem
     path('comprobante-items/', ComprobanteItemListCreateView.as_view(), name='comprobante-item-list-create'),
     path('comprobante-items/<int:pk>/', ComprobanteItemRetrieveUpdateDestroyView.as_view(), name='comprobante-item-retrieve-update-destroy'),
-
-    path('buscar-cliente/', buscar_cliente, name='buscar_cliente'),
     
     path('catalogo09/', Catalogo09TipoNotaDeCreditoListCreateView.as_view(), name='catalogo09-list-create'),
     path('catalogo09/<pk>/', Catalogo09TipoNotaDeCreditoRetrieveUpdateDestroyView.as_view(), name='catalogo09-detail'),
