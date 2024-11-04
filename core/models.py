@@ -84,7 +84,7 @@ class Entidad(models.Model):
     codigoPais = models.ForeignKey(CodigoPais, on_delete=models.CASCADE, null=False)
     imagen = models.CharField(max_length=200, null=True)
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.nombreComercial
 
 class TipoPago(models.Model):
@@ -111,11 +111,13 @@ class Comprobante(models.Model):
     codigoMoneda = models.ForeignKey(CodigoMoneda, on_delete=models.DO_NOTHING, null=True)
     estado = models.ForeignKey(EstadoDocumento, on_delete=models.SET_NULL, null=True)
 
-    # def __str__(self) -> str:
-    #     emisor_name = str(self.emisor.razonSocial) if self.emisor and self.emisor.razonSocial else "Unknown"
-    #     serie = str(self.serie) if self.serie else "null"
-    #     numero = str(self.numeroComprobante) if self.numeroComprobante else "null"
-    #     return f"{emisor_name}-{serie}-{numero}"
+    def __str__(self):
+        emisor_name = str(self.emisor.razonSocial) if self.emisor and self.emisor.razonSocial else "Unknown"
+        adquiriente_name = str(self.adquiriente.razonSocial) if self.adquiriente and self.adquiriente.razonSocial else "Unknown"
+        fecha_emision = str(self.fechaEmision) if self.fechaEmision else "NoDate"
+        serie = str(self.serie) if self.serie else "null"
+        numero = str(self.numeroComprobante) if self.numeroComprobante else "null"
+        return f"{emisor_name}-{adquiriente_name}-{fecha_emision}-{serie}-{numero}"
     
     def save(self, *args, **kwargs):
         if not self.serie or not self.numeroComprobante:
