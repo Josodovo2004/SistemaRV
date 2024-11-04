@@ -117,7 +117,7 @@ class Comprobante(models.Model):
         fecha_emision = str(self.fechaEmision) if self.fechaEmision else "NoDate"
         serie = str(self.serie) if self.serie else "null"
         numero = str(self.numeroComprobante) if self.numeroComprobante else "null"
-        return f"{emisor_name}-{adquiriente_name}-{fecha_emision}-{serie}-{numero}"
+        return f"{emisor_name}-{serie}-{numero}"
     
     def save(self, *args, **kwargs):
         if not self.serie or not self.numeroComprobante:
