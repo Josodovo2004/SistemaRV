@@ -112,11 +112,11 @@ class Comprobante(models.Model):
     estado = models.ForeignKey(EstadoDocumento, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
-        emisor_name = self.emisor.razonSocial if self.emisor else "Unknown"
-        adquiriente_name = self.adquiriente.razonSocial if self.adquiriente else "Unknown"
-        fecha_emision = self.fechaEmision if self.fechaEmision else "NoDate"
-        serie = self.serie if self.serie else 'null'
-        numero = self.numeroComprobante if self.numeroComprobante else 'null'
+        emisor_name = str(self.emisor.razonSocial) if self.emisor and self.emisor.razonSocial else "Unknown"
+        adquiriente_name = str(self.adquiriente.razonSocial) if self.adquiriente and self.adquiriente.razonSocial else "Unknown"
+        fecha_emision = str(self.fechaEmision) if self.fechaEmision else "NoDate"
+        serie = str(self.serie) if self.serie else "null"
+        numero = str(self.numeroComprobante) if self.numeroComprobante else "null"
         return f"{emisor_name}-{adquiriente_name}-{fecha_emision}-{serie}-{numero}"
     
     def save(self, *args, **kwargs):
