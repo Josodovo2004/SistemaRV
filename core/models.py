@@ -74,7 +74,7 @@ class CodigoMoneda(models.Model):
         return self.moneda
 
 class Entidad(models.Model):
-    numeroDocumento = models.CharField(max_length=11, null=False, unique=True)
+    numeroDocumento = models.CharField(max_length=11, null=False, unique=False)
     tipoDocumento = models.ForeignKey(Catalogo06DocumentoIdentidad, on_delete=models.CASCADE, null=False)
     razonSocial = models.CharField(max_length=150, null=False)
     nombreComercial = models.CharField(max_length=150, null=True)
