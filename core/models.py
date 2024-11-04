@@ -118,6 +118,7 @@ class Comprobante(models.Model):
         serie = self.serie if self.serie else 'null'
         numero = self.numeroComprobante if self.numeroComprobante else 'null'
         return f"{emisor_name}-{adquiriente_name}-{fecha_emision}-{serie}-{numero}"
+    
     def save(self, *args, **kwargs):
         if not self.serie or not self.numeroComprobante:
             # Get the last issued Comprobante
