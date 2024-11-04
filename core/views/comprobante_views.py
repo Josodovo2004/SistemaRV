@@ -11,7 +11,7 @@ class ComprobanteListCreateView(generics.ListCreateAPIView):
     queryset = Comprobante.objects.all()
     serializer_class = ComprobanteSerializer
     authentication_classes = [CustomJWTAuthentication]
-    permission_classes = [AllowAny]
+    permission_classes = []
     filter_backends = [DjangoFilterBackend]
     filterset_class = ComprobanteFilter
 
@@ -23,7 +23,7 @@ class ComprobanteRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView
     queryset = Comprobante.objects.all()
     serializer_class = ComprobanteSerializer
     authentication_classes = [CustomJWTAuthentication]
-    permission_classes = [AllowAny]
+    permission_classes = []
 
     @jwt_required
     def put(self, request, *args, **kwargs):

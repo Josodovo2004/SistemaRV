@@ -1,7 +1,7 @@
 from rest_framework import generics
 from core.models import ComprobanteItem
 from core.serializers import ComprobanteItemSerializer
-from core.filters import ComprobanteFilter
+from core.filters import ComprobanteItemFilter
 from rest_framework.permissions import AllowAny
 from SistemaRV.decorators import jwt_required, CustomJWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
@@ -12,6 +12,8 @@ class ComprobanteItemListCreateView(generics.ListCreateAPIView):
     serializer_class = ComprobanteItemSerializer
     authentication_classes = [CustomJWTAuthentication]  # Use your custom authentication
     permission_classes = []  # No permission class needed
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ComprobanteItemFilter
 
     @jwt_required
     def post(self, request, *args, **kwargs):
