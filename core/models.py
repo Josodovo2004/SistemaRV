@@ -119,32 +119,32 @@ class Comprobante(models.Model):
         numero = str(self.numeroComprobante) if self.numeroComprobante else "null"
         return f"{emisor_name}-{adquiriente_name}-{fecha_emision}-{serie}-{numero}"
     
-    def save(self, *args, **kwargs):
-        if not self.serie or not self.numeroComprobante:
-            # Get the last issued Comprobante
-            last_comprobante = Comprobante.objects.filter(serie__startswith=self.tipoComprobante.codigo, emisor__id = self.emisor.id).order_by('-id').first()
+    # def save(self, *args, **kwargs):
+    #     if not self.serie or not self.numeroComprobante:
+    #         # Get the last issued Comprobante
+    #         last_comprobante = Comprobante.objects.filter(serie__startswith=self.tipoComprobante.codigo, emisor__id = self.emisor.id).order_by('-id').first()
 
-            if last_comprobante:
-                last_num = int(last_comprobante.numeroComprobante)
-                last_serie = str(last_comprobante.serie)[-2::]
+    #         if last_comprobante:
+    #             last_num = int(last_comprobante.numeroComprobante)
+    #             last_serie = str(last_comprobante.serie)[-2::]
                 
-                # Check if the number is at its limit
-                if last_num >= 99999999:
-                    # Reset numeroComprobante and increment serie
-                    last_num = 1
-                    # Increment series (e.g., from F001 to F002, or B001 to B002)
-                    new_serie_number = int(last_serie) + 1
-                    self.serie = str(new_serie_number).zfill(2)
-                else:
-                    last_num += 1
-                    self.serie = last_serie
-            else:
-                # Initialize serie and numeroComprobante if this is the first record
-                self.serie = f'{self.tipoComprobante.serieSufix}01'  # Example: F001 or B001
-                last_num = 1
+    #             # Check if the number is at its limit
+    #             if last_num >= 99999999:
+    #                 # Reset numeroComprobante and increment serie
+    #                 last_num = 1
+    #                 # Increment series (e.g., from F001 to F002, or B001 to B002)
+    #                 new_serie_number = int(last_serie) + 1
+    #                 self.serie = str(new_serie_number).zfill(2)
+    #             else:
+    #                 last_num += 1
+    #                 self.serie = last_serie
+    #         else:
+    #             # Initialize serie and numeroComprobante if this is the first record
+    #             self.serie = f'{self.tipoComprobante.serieSufix}01'  # Example: F001 or B001
+    #             last_num = 1
 
-            self.numeroComprobante = str(last_num).zfill(8)
-        super().save(*args, **kwargs)
+    #         self.numeroComprobante = str(last_num).zfill(8)
+    #     super().save(*args, **kwargs)
 
 class ComprobanteItem(models.Model):
     comprobante = models.ForeignKey(Comprobante, on_delete=models.CASCADE ,null=False)
