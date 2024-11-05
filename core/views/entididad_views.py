@@ -5,6 +5,7 @@ from core.filters import EntidadFilter
 from SistemaRV.decorators import jwt_required, CustomJWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
+from core.serializers import UbigeoSerializer, CodigoPaisSerializer, Catalogo01TipoDocumentoSerializer
 
 class EntidadListCreateView(generics.ListCreateAPIView):
     queryset = Entidad.objects.all()
