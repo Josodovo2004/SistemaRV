@@ -4,6 +4,7 @@ from core.serializers import EntidadSerializer
 from core.filters import EntidadFilter
 from SistemaRV.decorators import jwt_required, CustomJWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
 
 class EntidadListCreateView(generics.ListCreateAPIView):
     queryset = Entidad.objects.all()
@@ -13,9 +14,23 @@ class EntidadListCreateView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = EntidadFilter
 
-    @jwt_required
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+    # Override the list method to customize the GET response
+    def list(self, request, *args, **kwargs):
+        # Use the default list method to get the response
+        response = super().list(request, *args, **kwargs)
+
+        # Check if response.data is a list of dictionaries
+        if isinstance(response.data, list):
+            for item in response.data:
+                if isinstance(item, dict) and 'id' in item:
+                    # Safely get the Entidad object and add nested data
+                    entidad = self.get_queryset().filter(id=item['id']).first()
+                    if entidad:
+                        item['ubigeo'] = UbigeoSerializer(entidad.ubigeo).data
+                        item['codigoPais'] = CodigoPaisSerializer(entidad.codigoPais).data
+                        item['tipoDocumento'] = Catalogo01TipoDocumentoSerializer(entidad.tipoDocumento).data
+
+        return Response(response.data)
 
 class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Entidad.objects.all()
