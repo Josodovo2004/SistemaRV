@@ -55,9 +55,9 @@ class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
             entidad = self.get_object()
             
             # Add nested serialized data to the response
-            ubigeo = Ubigeo.objects.filter(id= entidad.ubigeo.id).first()
+            ubigeo = Ubigeo.objects.filter(id= entidad.ubigeo.codigo).first()
             response.data['ubigeo'] = UbigeoSerializer(ubigeo).data
-            codigoPais = CodigoPais.objects.filter(id= entidad.codigoPais.id).first()
+            codigoPais = CodigoPais.objects.filter(id= entidad.codigoPais.codigo).first()
             response.data['codigoPais'] = CodigoPaisSerializer(codigoPais).data
             tipoDocumento = Catalogo06DocumentoIdentidad.objects.filter(id= entidad.tipoDocumento.codigo).first()
             response.data['tipoDocumento'] = Catalogo06DocumentoIdentidadSerializer(tipoDocumento).data
