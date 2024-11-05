@@ -45,6 +45,26 @@ class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [CustomJWTAuthentication]
     permission_classes = []
 
+    def retrieve(self, request, *args, **kwargs):
+        # Call the original 'retrieve' method to get the default response
+        response = super().retrieve(request, *args, **kwargs)
+
+        # Modify the data in the response
+        if isinstance(response.data, dict) and 'id' in response.data:
+            # Retrieve the Entidad object
+            entidad = self.get_object()
+            
+            # Add nested serialized data to the response
+            ubigeo = Ubigeo.objects.filter(id= entidad.ubigeo).first()
+            response.data['ubigeo'] = UbigeoSerializer(ubigeo).data
+            codigoPais = CodigoPais.objects.filter(id= entidad.codigoPais).first()
+            response.data['codigoPais'] = CodigoPaisSerializer(codigoPais).data
+            tipoDocumento = Catalogo01TipoDocumento.objects.filter(id= entidad.tipoDocumento).first()
+            response.data['tipoDocumento'] = Catalogo01TipoDocumentoSerializer(tipoDocumento).data
+
+        # Return the modified response
+        return Response(response.data)
+    
     @jwt_required
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
