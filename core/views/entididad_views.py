@@ -5,6 +5,7 @@ from core.filters import EntidadFilter
 from SistemaRV.decorators import jwt_required, CustomJWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
+from core.models import Ubigeo, CodigoPais, Catalogo01TipoDocumento
 from core.serializers import UbigeoSerializer, CodigoPaisSerializer, Catalogo01TipoDocumentoSerializer
 
 class EntidadListCreateView(generics.ListCreateAPIView):
@@ -17,20 +18,25 @@ class EntidadListCreateView(generics.ListCreateAPIView):
 
     # Override the list method to customize the GET response
     def list(self, request, *args, **kwargs):
-        # Use the default list method to get the response
+        # Call the original 'list' method to get the default response
         response = super().list(request, *args, **kwargs)
 
-        # Check if response.data is a list of dictionaries
+        # Modify the data in the response
         if isinstance(response.data, list):
             for item in response.data:
                 if isinstance(item, dict) and 'id' in item:
-                    # Safely get the Entidad object and add nested data
+                    # Retrieve the Entidad object
                     entidad = self.get_queryset().filter(id=item['id']).first()
                     if entidad:
-                        item['ubigeo'] = UbigeoSerializer(entidad.ubigeo).data
-                        item['codigoPais'] = CodigoPaisSerializer(entidad.codigoPais).data
-                        item['tipoDocumento'] = Catalogo01TipoDocumentoSerializer(entidad.tipoDocumento).data
+                        # Add nested serialized data to the response
+                        ubigeo = Ubigeo.objects.filter(id= entidad.ubigeo).first()
+                        item['ubigeo'] = UbigeoSerializer(ubigeo).data
+                        codigoPais = CodigoPais.objects.filter(id= entidad.codigoPais).first()
+                        item['codigoPais'] = CodigoPaisSerializer(codigoPais).data
+                        tipoDocumento = Catalogo01TipoDocumento.objects.filter(id= entidad.tipoDocumento).first()
+                        item['tipoDocumento'] = Catalogo01TipoDocumentoSerializer(tipoDocumento).data
 
+        # Return the modified response
         return Response(response.data)
 
 class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
