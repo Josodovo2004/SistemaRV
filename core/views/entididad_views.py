@@ -5,8 +5,8 @@ from core.filters import EntidadFilter
 from SistemaRV.decorators import jwt_required, CustomJWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
-from core.models import Ubigeo, CodigoPais, Catalogo01TipoDocumento
-from core.serializers import UbigeoSerializer, CodigoPaisSerializer, Catalogo01TipoDocumentoSerializer
+from core.models import Ubigeo, CodigoPais, Catalogo06DocumentoIdentidad
+from core.serializers import UbigeoSerializer, CodigoPaisSerializer, Catalogo06DocumentoIdentidadSerializer
 
 class EntidadListCreateView(generics.ListCreateAPIView):
     queryset = Entidad.objects.all()
@@ -59,8 +59,8 @@ class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
             response.data['ubigeo'] = UbigeoSerializer(ubigeo).data
             codigoPais = CodigoPais.objects.filter(id= entidad.codigoPais.id).first()
             response.data['codigoPais'] = CodigoPaisSerializer(codigoPais).data
-            tipoDocumento = Catalogo01TipoDocumento.objects.filter(id= entidad.tipoDocumento.id).first()
-            response.data['tipoDocumento'] = Catalogo01TipoDocumentoSerializer(tipoDocumento).data
+            tipoDocumento = Catalogo06DocumentoIdentidad.objects.filter(id= entidad.tipoDocumento.codigo).first()
+            response.data['tipoDocumento'] = Catalogo06DocumentoIdentidadSerializer(tipoDocumento).data
 
         # Return the modified response
         return Response(response.data)
