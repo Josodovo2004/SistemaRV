@@ -93,8 +93,8 @@ class Entidad(models.Model):
 class TipoPago(models.Model):
     name= models.CharField(max_length=50, null=False)
     
-    def __str__(self):
-        return str(self.name)
+    # def __str__(self):
+    #     return str(self.name)
 
 class TipoOperacion(models.Model):
     name=models.CharField(max_length=50)
