@@ -11,8 +11,8 @@ class Catalogo01TipoDocumento(models.Model):
 
     class Meta:
         db_table = 'CATALOGO_01_TIPO_DOCUMENTO'
-    # def __str__(self):
-    #     return str(self.descripcion)
+    def __str__(self):
+        return str(self.descripcion) or ''
 
 class Catalogo06DocumentoIdentidad(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=1, primary_key=True)  # Field name made lowercase.
@@ -51,8 +51,8 @@ class Catalogo51TipoDeOperacion(models.Model):
     descripcion = models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True)  # Field name made lowercase.
     tipoComprobante = models.CharField(max_length=100, null=True)
     
-    # def __str__(self) -> str:
-    #     return f'{self.descripcion}'
+    def __str__(self) -> str:
+        return f'{self.descripcion}' or ''
 
 class Ubigeo(models.Model):
     codigo = models.CharField(max_length=10, null=False)
@@ -60,7 +60,7 @@ class Ubigeo(models.Model):
     provincia = models.CharField(max_length=100, null=False)
     departamento = models.CharField(max_length=100, null=False)
     def __str__(self) -> str:
-        return f'{self.distrito} {self.provincia} {self.departamento}'
+        return f'{self.distrito} {self.provincia} {self.departamento}' or ''
 
 class CodigoPais(models.Model):
     codigo = models.CharField(max_length=5, null=False)
@@ -74,7 +74,7 @@ class CodigoMoneda(models.Model):
     moneda = models.CharField(max_length=50, null=False)
     
     def __str__(self) -> str:
-        return self.moneda
+        return self.moneda or ''
 
 class Entidad(models.Model):
     numeroDocumento = models.CharField(max_length=11, null=False, unique=False)
@@ -94,7 +94,7 @@ class TipoPago(models.Model):
     name= models.CharField(max_length=50, null=False)
     
     def __str__(self):
-        return str(self.name)
+        return str(self.name) or ''
 
 class TipoOperacion(models.Model):
     name=models.CharField(max_length=50)
@@ -120,7 +120,7 @@ class Comprobante(models.Model):
         fecha_emision = str(self.fechaEmision) if self.fechaEmision else "NoDate"
         serie = str(self.serie) if self.serie else "null"
         numero = str(self.numeroComprobante) if self.numeroComprobante else "null"
-        return str(f"{emisor_name}-{adquiriente_name}-{fecha_emision}-{serie}-{numero}")
+        return str(f"{emisor_name}-{adquiriente_name}-{fecha_emision}-{serie}-{numero}") or ''
     
     def save(self, *args, **kwargs):
         if not self.serie or not self.numeroComprobante:
