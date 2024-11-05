@@ -11,8 +11,8 @@ class Catalogo01TipoDocumento(models.Model):
 
     class Meta:
         db_table = 'CATALOGO_01_TIPO_DOCUMENTO'
-    def __str__(self):
-        return str(self.descripcion)
+    # def __str__(self):
+    #     return str(self.descripcion)
 
 class Catalogo06DocumentoIdentidad(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=1, primary_key=True)  # Field name made lowercase.
@@ -51,16 +51,16 @@ class Catalogo51TipoDeOperacion(models.Model):
     descripcion = models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True)  # Field name made lowercase.
     tipoComprobante = models.CharField(max_length=100, null=True)
     
-    def __str__(self) -> str:
-        return f'{self.descripcion}'
+    # def __str__(self) -> str:
+    #     return f'{self.descripcion}'
 
 class Ubigeo(models.Model):
     codigo = models.CharField(max_length=10, null=False)
     distrito = models.CharField(max_length=100, null=False)
     provincia = models.CharField(max_length=100, null=False)
     departamento = models.CharField(max_length=100, null=False)
-    # def __str__(self) -> str:
-    #     return f'{self.distrito} {self.provincia} {self.departamento}'
+    def __str__(self) -> str:
+        return f'{self.distrito} {self.provincia} {self.departamento}'
 
 class CodigoPais(models.Model):
     codigo = models.CharField(max_length=5, null=False)
@@ -73,8 +73,8 @@ class CodigoMoneda(models.Model):
     codigo = models.CharField(max_length=4, null=False)
     moneda = models.CharField(max_length=50, null=False)
     
-    # def __str__(self) -> str:
-    #     return self.moneda
+    def __str__(self) -> str:
+        return self.moneda
 
 class Entidad(models.Model):
     numeroDocumento = models.CharField(max_length=11, null=False, unique=False)
