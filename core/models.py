@@ -59,8 +59,8 @@ class Ubigeo(models.Model):
     distrito = models.CharField(max_length=100, null=False)
     provincia = models.CharField(max_length=100, null=False)
     departamento = models.CharField(max_length=100, null=False)
-    def __str__(self) -> str:
-        return f'{self.distrito} {self.provincia} {self.departamento}'
+    # def __str__(self) -> str:
+    #     return f'{self.distrito} {self.provincia} {self.departamento}'
 
 class CodigoPais(models.Model):
     codigo = models.CharField(max_length=5, null=False)
@@ -73,8 +73,8 @@ class CodigoMoneda(models.Model):
     codigo = models.CharField(max_length=4, null=False)
     moneda = models.CharField(max_length=50, null=False)
     
-    def __str__(self) -> str:
-        return self.moneda
+    # def __str__(self) -> str:
+    #     return self.moneda
 
 class Entidad(models.Model):
     numeroDocumento = models.CharField(max_length=11, null=False, unique=False)
@@ -93,8 +93,8 @@ class Entidad(models.Model):
 class TipoPago(models.Model):
     name= models.CharField(max_length=50, null=False)
     
-    # def __str__(self):
-    #     return str(self.name)
+    def __str__(self):
+        return str(self.name)
 
 class TipoOperacion(models.Model):
     name=models.CharField(max_length=50)
