@@ -16,29 +16,6 @@ class EntidadListCreateView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = EntidadFilter
 
-    # Override the list method to customize the GET response
-    def list(self, request, *args, **kwargs):
-        # Call the original 'list' method to get the default response
-        response = super().list(request, *args, **kwargs)
-
-        # Modify the data in the response
-        if isinstance(response.data, list):
-            for item in response.data:
-                if isinstance(item, dict) and 'id' in item:
-                    # Retrieve the Entidad object
-                    entidad = self.get_queryset().filter(id=item['id']).first()
-                    if entidad:
-                        # Add nested serialized data to the response
-                        ubigeo = Ubigeo.objects.filter(id= entidad.ubigeo).first()
-                        item['ubigeo'] = UbigeoSerializer(ubigeo).data
-                        codigoPais = CodigoPais.objects.filter(id= entidad.codigoPais).first()
-                        item['codigoPais'] = CodigoPaisSerializer(codigoPais).data
-                        tipoDocumento = Catalogo01TipoDocumento.objects.filter(id= entidad.tipoDocumento).first()
-                        item['tipoDocumento'] = Catalogo01TipoDocumentoSerializer(tipoDocumento).data
-
-        # Return the modified response
-        return Response(response.data)
-
 class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Entidad.objects.all()
     serializer_class = EntidadSerializer
