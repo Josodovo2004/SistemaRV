@@ -28,7 +28,7 @@ class EstadoDocumento(models.Model):
     class Meta:
         db_table = 'ESTADO_DOCUMENTO'
     def __str__(self):
-        return 'LOL'
+        return str(self.nombre)
 
 class Catalogo15ElementosAdicionales(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=4,primary_key =True)  # Field name made lowercase.
@@ -74,7 +74,7 @@ class CodigoMoneda(models.Model):
     moneda = models.CharField(max_length=50, null=False)
     
     def __str__(self) -> str:
-        return 'lol'
+        return self.moneda or ''
 
 class Entidad(models.Model):
     numeroDocumento = models.CharField(max_length=11, null=False, unique=False)
@@ -88,7 +88,7 @@ class Entidad(models.Model):
     imagen = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return self.nombreComercial
+        return 'lol'
 
 class TipoPago(models.Model):
     name= models.CharField(max_length=50, null=False)
