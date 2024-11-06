@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from core.models import Ubigeo, CodigoPais, Catalogo06DocumentoIdentidad
 from core.serializers import UbigeoSerializer, CodigoPaisSerializer, Catalogo06DocumentoIdentidadSerializer
+import json
 
 class EntidadListCreateView(generics.ListCreateAPIView):
     queryset = Entidad.objects.all()
@@ -15,6 +16,31 @@ class EntidadListCreateView(generics.ListCreateAPIView):
     permission_classes = []
     filter_backends = [DjangoFilterBackend]
     filterset_class = EntidadFilter
+    
+    def list(self, request, *args, **kwargs):
+        # Call the original 'list' method to get the default response
+        response = super().list(request, *args, **kwargs)
+        data = response.data
+        # Modify the data in the response
+        if request.data['resupuesta_simple'] != True:
+            for i in range(len(data['results'])):
+                if isinstance(data['results'][i], dict) and 'id' in data['results'][i]:
+                    # Retrieve the Entidad object
+                    entidad = self.get_queryset().filter(id=data['results'][i]['id']).first()
+                    if entidad:
+                        # Add nested serialized data to the response
+                        data['results'][i]['ubigeo'] = UbigeoSerializer(entidad.ubigeo).data
+                        data['results'][i]['codigoPais'] = CodigoPaisSerializer(entidad.codigoPais).data
+                        data['results'][i]['tipoDocumento'] = Catalogo06DocumentoIdentidadSerializer(entidad.tipoDocumento).data
+                    
+        response.data = data
+
+        # Return the modified response
+        return Response(response.data)
+    
+    @jwt_required
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 class EntidadRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Entidad.objects.all()
