@@ -12,7 +12,7 @@ class Catalogo01TipoDocumento(models.Model):
     class Meta:
         db_table = 'CATALOGO_01_TIPO_DOCUMENTO'
     def __str__(self):
-        return 'lol'
+        return str(self.descripcion) or ''
 
 class Catalogo06DocumentoIdentidad(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=1, primary_key=True)  # Field name made lowercase.
@@ -28,7 +28,7 @@ class EstadoDocumento(models.Model):
     class Meta:
         db_table = 'ESTADO_DOCUMENTO'
     def __str__(self):
-        return str(self.nombre)
+        return 'LOL'
 
 class Catalogo15ElementosAdicionales(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=4,primary_key =True)  # Field name made lowercase.
@@ -52,7 +52,7 @@ class Catalogo51TipoDeOperacion(models.Model):
     tipoComprobante = models.CharField(max_length=100, null=True)
     
     def __str__(self) -> str:
-        return 'lol'
+        return f'{self.descripcion}' or ''
 
 class Ubigeo(models.Model):
     codigo = models.CharField(max_length=10, null=False)
@@ -74,7 +74,7 @@ class CodigoMoneda(models.Model):
     moneda = models.CharField(max_length=50, null=False)
     
     def __str__(self) -> str:
-        return self.moneda or ''
+        return 'lol'
 
 class Entidad(models.Model):
     numeroDocumento = models.CharField(max_length=11, null=False, unique=False)
@@ -94,7 +94,7 @@ class TipoPago(models.Model):
     name= models.CharField(max_length=50, null=False)
     
     def __str__(self):
-        return 'lol'
+        return str(self.name) or ''
 
 class TipoOperacion(models.Model):
     name=models.CharField(max_length=50)
