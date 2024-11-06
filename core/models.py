@@ -108,7 +108,7 @@ class Comprobante(models.Model):
     tipoComprobante = models.ForeignKey(Catalogo01TipoDocumento, on_delete=models.DO_NOTHING, null=False)
     tipoOperacion = models.ForeignKey(Catalogo51TipoDeOperacion, on_delete=models.DO_NOTHING, null=True)
     tipoPago = models.ForeignKey(TipoPago, on_delete=models.DO_NOTHING, null=True)
-    serie = models.CharField(max_length=4, null=False)
+    serie = models.CharField(max_length=4, null=True)
     numeroComprobante = models.CharField(max_length=8, null=False)
     fechaEmision = models.DateField(default=tm.now, null=True)
     codigoMoneda = models.ForeignKey(CodigoMoneda, on_delete=models.DO_NOTHING, null=True)
