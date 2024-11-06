@@ -22,7 +22,7 @@ class EntidadListCreateView(generics.ListCreateAPIView):
         response = super().list(request, *args, **kwargs)
         data = response.data
         # Modify the data in the response
-        if request.data['resupuesta_simple'] != True:
+        if request.data['resupuesta_simple']:
             for i in range(len(data['results'])):
                 if isinstance(data['results'][i], dict) and 'id' in data['results'][i]:
                     # Retrieve the Entidad object
