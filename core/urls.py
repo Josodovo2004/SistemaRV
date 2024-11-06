@@ -103,5 +103,5 @@ urlpatterns = [
     
     path('consultar-cliente/', ConsultarCliente.as_view(), name='consultar-cliente'),
     
-    path('get-serie-and-number', GetSerieAndNumber.as_view(), name='get-serie-and-number')
+    path('get-serie-and-number/', GetSerieAndNumber.as_view(), name='get-serie-and-number')
 ]
