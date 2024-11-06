@@ -88,7 +88,7 @@ class Entidad(models.Model):
     imagen = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return 'lol'
+        return self.nombreComercial if self.nombreComercial else self.razonSocial
 
 class TipoPago(models.Model):
     name= models.CharField(max_length=50, null=False)
