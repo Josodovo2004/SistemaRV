@@ -17,6 +17,7 @@ from .generate_presigned_url_view import GeneratePresignedUrlView
 from .consultar_cliente_view import ConsultarCliente
 from .codigo_moneda_views import CodigoMonedaListCreateView, CodigoMonedaRetrieveUpdateDestroyView
 from .tipo_pago_views import TipoPagoListCreateView, TipoPagoRetrieveUpdateDestroyView
+from .getSerieAndNumber import GetSerieAndNumber
 
 __all__ = [
     "EntidadListCreateView",
@@ -49,4 +50,5 @@ __all__ = [
     "GeneratePresignedUrlView",
     "ConsultarCliente",
     "UbigeoListCreateView",
+    "GetSerieAndNumber",
 ]
