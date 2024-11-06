@@ -12,7 +12,7 @@ class Catalogo01TipoDocumento(models.Model):
     class Meta:
         db_table = 'CATALOGO_01_TIPO_DOCUMENTO'
     def __str__(self):
-        return str(self.descripcion) or ''
+        return 'lol'
 
 class Catalogo06DocumentoIdentidad(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=1, primary_key=True)  # Field name made lowercase.
@@ -52,7 +52,7 @@ class Catalogo51TipoDeOperacion(models.Model):
     tipoComprobante = models.CharField(max_length=100, null=True)
     
     def __str__(self) -> str:
-        return f'{self.descripcion}' or ''
+        return 'lol'
 
 class Ubigeo(models.Model):
     codigo = models.CharField(max_length=10, null=False)
@@ -94,7 +94,7 @@ class TipoPago(models.Model):
     name= models.CharField(max_length=50, null=False)
     
     def __str__(self):
-        return str(self.name) or ''
+        return 'lol'
 
 class TipoOperacion(models.Model):
     name=models.CharField(max_length=50)
