@@ -14,7 +14,7 @@ class GetSerieAndNumber(APIView):
             return Response({"error": "doc_type and ruc are required parameters"}, status=400)
         
         # Find the entity by RUC
-        emisor = get_object_or_404(Entidad, ruc=ruc)
+        emisor = get_object_or_404(Entidad, numeroDocumento=ruc)
         
         # Get the last Comprobante for this emisor and document type
         last_comprobante = Comprobante.objects.filter(
