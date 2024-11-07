@@ -30,7 +30,8 @@ from .views import (
     GeneratePresignedUrlView,
     ConsultarCliente,
     UbigeoListCreateView,
-    GetSerieAndNumber
+    GetSerieAndNumber,
+    GenerateFacturacionFromIds,
 )
 
 urlpatterns = [
@@ -103,5 +104,7 @@ urlpatterns = [
     
     path('consultar-cliente/', ConsultarCliente.as_view(), name='consultar-cliente'),
     
-    path('get-serie-and-number/', GetSerieAndNumber.as_view(), name='get-serie-and-number')
+    path('get-serie-and-number/', GetSerieAndNumber.as_view(), name='get-serie-and-number'),
+    
+    path('enviar-servicio-facturacion/', GenerateFacturacionFromIds.as_view(), name='enviar-a-sunat'),
 ]

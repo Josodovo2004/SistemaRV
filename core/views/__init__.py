@@ -18,6 +18,7 @@ from .consultar_cliente_view import ConsultarCliente
 from .codigo_moneda_views import CodigoMonedaListCreateView, CodigoMonedaRetrieveUpdateDestroyView
 from .tipo_pago_views import TipoPagoListCreateView, TipoPagoRetrieveUpdateDestroyView
 from .getSerieAndNumber import GetSerieAndNumber
+from .generateDataForFacturacion import GenerateFacturacionFromIds
 
 __all__ = [
     "EntidadListCreateView",
@@ -51,4 +52,5 @@ __all__ = [
     "ConsultarCliente",
     "UbigeoListCreateView",
     "GetSerieAndNumber",
+    "GenerateFacturacionFromIds",
 ]
