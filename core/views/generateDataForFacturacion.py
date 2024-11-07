@@ -75,7 +75,7 @@ class GenerateFacturacionFromIds(APIView):
                 return Response({"error": f"'{key}' must be of type {expected_type.__name__}."}, status=status.HTTP_400_BAD_REQUEST)
         
         # Check that items is a list of dictionaries with 'id' and 'quantity' keys
-        for item in data['items'].values():
+        for item in data['items']:
             if not isinstance(item, dict) or 'id' not in item or 'quantity' not in item:
                 return Response({
                     "error": "Each item in 'items' must be a dictionary with 'id' and 'quantity' keys."
@@ -91,22 +91,22 @@ class GenerateFacturacionFromIds(APIView):
         # If all checks pass, return a success response
         return Response({'response': 'Successful Request'})
     
-    
-data = {
-    'comprobante': 1,
-    'emisor' : 1,
-    'comprador' : 2,
-    'items' : {
-        {'id': 2,
-         'quantity' : 5},
-        {'id': 4,
-         'quantity' : 1}
-    },
-    "payTerms": [
-        {
-            "metodo": "contado",
-        }
-    ],
-    'observaciones': 'Observaciones para poner en el documento pdf',
-    'tipoPago': 3,
-}
+if __name__ == '__main__':
+    data = {
+        'comprobante': 1,
+        'emisor' : 1,
+        'comprador' : 2,
+        'items' : [
+            {'id': 2,
+            'quantity' : 5},
+            {'id': 4,
+            'quantity' : 1}
+        ],
+        "payTerms": [
+            {
+                "metodo": "contado",
+            }
+        ],
+        'observaciones': 'Observaciones para poner en el documento pdf',
+        'tipoPago': 3,
+    }
