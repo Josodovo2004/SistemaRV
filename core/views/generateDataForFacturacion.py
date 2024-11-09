@@ -173,7 +173,7 @@ class GenerateFacturacionFromIds(APIView):
                 for tax in item['taxes']:
                     dataToAdd['tax'][tax['impuesto']['nombre']] = {
                             "operacionesGravadas": (item['valorUnitario'] * cantidad)*(1-totalPercentage),
-                            "MontoTotalImpuesto": (item['valorUnitario'] * cantidad)*(1-totalPercentage)*(tax['porcentaje']/100),
+                            "MontoTotalImpuesto": ((item['valorUnitario'] * cantidad)*(1-totalPercentage))*(tax['porcentaje']/100),
                             "cod1": tax['impuesto']["codigo"],
                             "cod2": tax['impuesto']["nombre"],
                             "cod3": tax['impuesto']["un_ece_5153"],
