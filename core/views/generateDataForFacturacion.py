@@ -6,7 +6,7 @@ from SistemaRV.decorators import CustomJWTAuthentication
 from rest_framework.views import APIView
 from rest_framework import status
 import requests
-from core.models import Entidad, Comprobante, ComprobanteItem
+from core.models import Entidad, Comprobante, ComprobanteItem, TipoPago
 
 class GenerateFacturacionFromIds(APIView):
     authentication_classes = [CustomJWTAuthentication]
@@ -96,7 +96,7 @@ class GenerateFacturacionFromIds(APIView):
             "items" : [],
             "payterms" : data["payTerms"],
             "observaciones" : data["observaciones"],
-            "formaPago" : data["formaPago"],
+            "formaPago" : TipoPago.objects.filter(id=data["tipoPago"]).first().name,
             "tipo_pdf" : data['tipo_pdf'],
         }
         
