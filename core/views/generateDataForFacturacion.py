@@ -115,7 +115,7 @@ class GenerateFacturacionFromIds(APIView):
                 'telefono' : emisor.celular,
         }
         
-        adquiriente = Entidad.objects.filter(id=data["adquiriente"]).first()
+        adquiriente = Entidad.objects.filter(id=data["comprador"]).first()
         
         sendData["adquiriente"] = {
                 "TipoDocumentoAdquiriente": adquiriente.tipoDocumento.codigo,
