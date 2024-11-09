@@ -191,7 +191,7 @@ class GenerateFacturacionFromIds(APIView):
         
         
         # If all checks pass, return a success response
-        return Response({'response': data['item_details']})
+        return Response({'response': sendData})
     
 if __name__ == '__main__':
     data = {
