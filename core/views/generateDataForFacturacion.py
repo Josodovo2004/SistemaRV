@@ -168,18 +168,18 @@ class GenerateFacturacionFromIds(APIView):
                     totalPercentage += tax['porcentaje']
                 totalPercentage = totalPercentage/100
                 
-                dataToAdd['precioUnitario'] = item['valorUnitario'] * (1-totalPercentage)
+                dataToAdd['precioUnitario'] = item['valorUnitario']/(1+totalPercentage)
                 
                 for tax in item['taxes']:
                     dataToAdd['tax'][tax['impuesto']['nombre']] = {
-                            "operacionesGravadas": (item['valorUnitario'] * cantidad)*(1-totalPercentage),
-                            "MontoTotalImpuesto": ((item['valorUnitario'] * cantidad)*(1-totalPercentage))*(tax['porcentaje']/100),
+                            "operacionesGravadas": (item['valorUnitario'] * cantidad)/(1+totalPercentage),
+                            "MontoTotalImpuesto": (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100))),
                             "cod1": tax['impuesto']["codigo"],
                             "cod2": tax['impuesto']["nombre"],
                             "cod3": tax['impuesto']["un_ece_5153"],
                             "afectacionIGV": tax['afectacion'],
                     }
-                    totaltax += (item['valorUnitario'] * cantidad)*(1-totalPercentage)*(tax['porcentaje']/100)
+                    totaltax += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
                 dataToAdd['totalTax'] = totaltax
                 item_details.append(item)
                 
