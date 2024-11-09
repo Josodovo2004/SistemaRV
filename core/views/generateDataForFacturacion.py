@@ -94,7 +94,7 @@ class GenerateFacturacionFromIds(APIView):
             "comprobante" : {},
             "taxes" : {},
             "items" : [],
-            "payterms" : data["payterms"],
+            "payterms" : data["payTerms"],
             "observaciones" : data["observaciones"],
             "formaPago" : data["formaPago"],
             "tipo_pdf" : data['tipo_pdf'],
