@@ -89,12 +89,12 @@ WSGI_APPLICATION = 'SistemaRV.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": dbEngine,
-        "NAME": nameDb,
-        "USER": userDb,
+        "ENGINE": 'django.db.backends.postgresql',
+        "NAME": 'SistemaRV',
+        "USER": 'postgres',
         "PASSWORD": passwordDb,
-        "HOST": hostDb,
-        "PORT": portDb,
+        "HOST": 'db',
+        "PORT": '5432',
     }
 }
 
