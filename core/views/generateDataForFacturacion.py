@@ -208,6 +208,13 @@ class GenerateFacturacionFromIds(APIView):
                             "cod3": tax['impuesto']["un_ece_5153"],
                             "afectacionIGV": tax['afectacion'],
                     }
+                    
+                    if sendData['taxes'][tax['impuesto']['nombre']]:
+                        sendData['taxes'][tax['impuesto']['nombre']]['operacionesGravadas'] += (item['valorUnitario'] * cantidad)/(1+totalPercentage)
+                        sendData['taxes'][tax['impuesto']['nombre']]['MontoTotalImpuesto'] += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
+                    else: 
+                        sendData['taxes'][tax['impuesto']['nombre']] = dataToAdd['tax'][tax['impuesto']['nombre']]
+                    
                     totaltax += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
                     
                     sendData['comprobante']['MontoTotalImpuestos'] += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
