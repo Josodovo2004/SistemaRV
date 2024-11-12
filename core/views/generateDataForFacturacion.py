@@ -209,10 +209,10 @@ class GenerateFacturacionFromIds(APIView):
                             "afectacionIGV": tax['afectacion'],
                     }
                     
-                    if sendData['taxes'][tax['impuesto']['nombre']]:
-                        sendData['taxes'][tax['impuesto']['nombre']]['operacionesGravadas'] += (item['valorUnitario'] * cantidad)/(1+totalPercentage)
-                        sendData['taxes'][tax['impuesto']['nombre']]['MontoTotalImpuesto'] += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
-                    else: 
+                    if sendData['taxes'].get(tax['impuesto']['nombre']):
+                        sendData['taxes'][tax['impuesto']['nombre']]['operacionesGravadas'] += (item['valorUnitario'] * cantidad) / (1 + totalPercentage)
+                        sendData['taxes'][tax['impuesto']['nombre']]['MontoTotalImpuesto'] += (item['valorUnitario'] * cantidad) - ((item['valorUnitario'] * cantidad) / (1 + (tax['porcentaje'] / 100)))
+                    else:
                         sendData['taxes'][tax['impuesto']['nombre']] = dataToAdd['tax'][tax['impuesto']['nombre']]
                     
                     totaltax += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
