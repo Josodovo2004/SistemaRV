@@ -204,8 +204,8 @@ class GenerateFacturacionFromIds(APIView):
                 
                 for tax in item['taxes']:
                     dataToAdd['tax'][tax['impuesto']['nombre']] = {
-                            "operacionesGravadas": (item['valorUnitario'] * cantidad)/(1+totalPercentage),
-                            "MontoTotalImpuesto": (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100))),
+                            "operacionesGravadas": round((item['valorUnitario'] * cantidad)/(1+totalPercentage), 2),
+                            "MontoTotalImpuesto": round((item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100))), 2),
                             "cod1": tax['impuesto']["codigo"],
                             "cod2": tax['impuesto']["nombre"],
                             "cod3": tax['impuesto']["un_ece_5153"],
@@ -213,14 +213,14 @@ class GenerateFacturacionFromIds(APIView):
                     }
                     
                     if sendData['taxes'].get(tax['impuesto']['nombre']):
-                        sendData['taxes'][tax['impuesto']['nombre']]['operacionesGravadas'] += (item['valorUnitario'] * cantidad) / (1 + totalPercentage)
-                        sendData['taxes'][tax['impuesto']['nombre']]['MontoTotalImpuesto'] += (item['valorUnitario'] * cantidad) - ((item['valorUnitario'] * cantidad) / (1 + (tax['porcentaje'] / 100)))
+                        sendData['taxes'][tax['impuesto']['nombre']]['operacionesGravadas'] += round((item['valorUnitario'] * cantidad) / (1 + totalPercentage), 2)
+                        sendData['taxes'][tax['impuesto']['nombre']]['MontoTotalImpuesto'] += round((item['valorUnitario'] * cantidad) - ((item['valorUnitario'] * cantidad) / (1 + (tax['porcentaje'] / 100))), 2)
                     else:
                         sendData['taxes'][tax['impuesto']['nombre']] = dataToAdd['tax'][tax['impuesto']['nombre']]
                     
-                    totaltax += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
+                    totaltax += round((item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100))), 2)
                     
-                    sendData['comprobante']['MontoTotalImpuestos'] += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
+                    sendData['comprobante']['MontoTotalImpuestos'] += round((item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100))), 2)
                     
                 dataToAdd['totalTax'] = totaltax
                 item_details.append(item)
