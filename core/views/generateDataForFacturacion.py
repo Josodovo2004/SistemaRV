@@ -108,8 +108,8 @@ class GenerateFacturacionFromIds(APIView):
         sendData["comprobante"] = {
             "serieDocumento": comprobante.serie,
                 "numeroDocumento": comprobante.numeroComprobante,
-                "fechaEmision": comprobante.fechaEmision,
-                "DueDate": comprobante.fechaEmision + timedelta(days=7),
+                "fechaEmision": str(comprobante.fechaEmision),
+                "DueDate": f'{comprobante.fechaEmision + timedelta(days=7)}',
                 "tipoComprobante": comprobante.tipoComprobante.codigo,
                 "cantidadItems": 0,
                 "MontoTotalImpuestos": 0,
