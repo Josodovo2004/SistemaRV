@@ -99,6 +99,7 @@ class GenerateFacturacionFromIds(APIView):
             "observaciones" : data["observaciones"],
             "formaPago" : TipoPago.objects.filter(id=data["tipoPago"]).first().name,
             "tipo_pdf" : data['tipo_pdf'],
+            "image_path" : ''
         }
         
         #--------------datos comprobante----------------#
@@ -119,6 +120,8 @@ class GenerateFacturacionFromIds(APIView):
         
         #-----------datos emisor-----------------#
         emisor = Entidad.objects.filter(id=data["emisor"]).first()
+        
+        sendData['image_path'] = emisor.imagen
         
         sendData["emisor"] = {
             "TipoDocumento": emisor.tipoDocumento.codigo,
