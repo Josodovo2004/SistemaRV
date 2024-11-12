@@ -226,13 +226,17 @@ class GenerateFacturacionFromIds(APIView):
             data['item_details'] = item_details
             
             sendData['comprobante']['ImporteTotalVenta'] = sendData['comprobante']['totalConImpuestos'] -  sendData['comprobante']['MontoTotalImpuestos']
+        
+            item_detail_url = "http://54.235.246.131:8003//api/generar_comprobante/"
+            response = requests.post(item_detail_url, json=sendData)
 
+        
         except requests.RequestException as e:
             return Response({"error": f"Internal API call failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         
         # If all checks pass, return a success response
-        return Response({'response': sendData})
+        return Response({'response': response})
     
 if __name__ == '__main__':
     data = {
