@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 import requests
 from core.models import Entidad, Comprobante, ComprobanteItem, TipoPago
+from datetime import timedelta
 
 class GenerateFacturacionFromIds(APIView):
     authentication_classes = [CustomJWTAuthentication]
@@ -100,6 +101,23 @@ class GenerateFacturacionFromIds(APIView):
             "tipo_pdf" : data['tipo_pdf'],
         }
         
+        #--------------datos comprobante----------------#
+        
+        comprobante = Comprobante.objects.filter(id =data['comprobante']).first()
+        
+        sendData["comprobante"] = {
+            "serieDocumento": comprobante.serie,
+                "numeroDocumento": comprobante.numeroComprobante,
+                "fechaEmision": comprobante.fechaEmision,
+                "DueDate": comprobante.fechaEmision + timedelta(days=7),
+                "tipoComprobante": comprobante.tipoComprobante.codigo,
+                "cantidadItems": 0,
+                "MontoTotalImpuestos": 0,
+                "ImporteTotalVenta": 0,
+                "totalConImpuestos": 0
+        }
+        
+        #-----------datos emisor-----------------#
         emisor = Entidad.objects.filter(id=data["emisor"]).first()
         
         sendData["emisor"] = {
@@ -115,6 +133,7 @@ class GenerateFacturacionFromIds(APIView):
                 'telefono' : emisor.celular,
         }
         
+        #-------------------------datos adquiriente---------------------#
         adquiriente = Entidad.objects.filter(id=data["comprador"]).first()
         
         sendData["adquiriente"] = {
@@ -126,6 +145,8 @@ class GenerateFacturacionFromIds(APIView):
                 "provinciaComprador": adquiriente.ubigeo.provincia,
                 "departamentoComprador": adquiriente.ubigeo.departamento
             }
+        
+        #-------------peticion de la data de los items-----------------#
         
         try:
             item_ids = [item['id'] for item in data['items']]
@@ -142,6 +163,9 @@ class GenerateFacturacionFromIds(APIView):
             item_details = []
             # Add fetched item details to response data
             numeroId=1
+            
+            #------------------------- procesando la data de los items-----------------------#
+            
             for item in items['results']:
                 for value in data['items']:
                     if value['id'] == item['id']:
@@ -153,10 +177,10 @@ class GenerateFacturacionFromIds(APIView):
                     "totalValorVenta": item["valorUnitario"] * cantidad,
                     "precioUnitarioConImpuestos": item["valorUnitario"],
                     "tipoPrecio": item["tipoPrecio"]["codigo"],
-                    "totalTax": 30.51,
+                    "totalTax": 0,
                     "DescripcionItem": item["descripcion"],
                     "id": f"PROD{numeroId}",
-                    "precioUnitario":84.75,
+                    "precioUnitario": 0,
                     'codProducto' : item["codigoProducto"]["codigo"],
                     'descripcion': item["descripcion"],
                     'tax' : {},
@@ -170,6 +194,11 @@ class GenerateFacturacionFromIds(APIView):
                 
                 dataToAdd['precioUnitario'] = item['valorUnitario']/(1+totalPercentage)
                 
+                sendData['comprobante']['cantidadItems'] += cantidad
+                sendData['comprobante']['totalConImpuestos'] += item["valorUnitario"] * cantidad
+                
+                #------------------procesando impuestos-----------------#
+                
                 for tax in item['taxes']:
                     dataToAdd['tax'][tax['impuesto']['nombre']] = {
                             "operacionesGravadas": (item['valorUnitario'] * cantidad)/(1+totalPercentage),
@@ -180,11 +209,16 @@ class GenerateFacturacionFromIds(APIView):
                             "afectacionIGV": tax['afectacion'],
                     }
                     totaltax += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
+                    
+                    sendData['comprobante']['MontoTotalImpuestos'] += (item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100)))
+                    
                 dataToAdd['totalTax'] = totaltax
                 item_details.append(item)
                 
                 sendData['items'].append(dataToAdd)
             data['item_details'] = item_details
+            
+            sendData['comprobante']['ImporteTotalVenta'] = sendData['comprobante']['totalConImpuestos'] -  sendData['comprobante']['MontoTotalImpuestos']
 
         except requests.RequestException as e:
             return Response({"error": f"Internal API call failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
