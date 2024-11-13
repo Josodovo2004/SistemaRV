@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - SistemaRV_postgres_data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
     networks:
@@ -21,9 +21,13 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    restart: always
 
   web:
-    build: .
+    build:
+      context: .
+      labels:
+        - "project=SistemaRV"
     command: bash -c "python manage.py migrate && 
              python manage.py import_data_from_csv &&
              gunicorn --bind 0.0.0.0:8000 SistemaRV.wsgi:application"
@@ -42,9 +46,10 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    restart: always
 
 volumes:
-  postgres_data:
+  SistemaRV_postgres_data:
 
 networks:
   app_network:
