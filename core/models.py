@@ -6,7 +6,7 @@ import django.utils.timezone as tm
 class Catalogo01TipoDocumento(models.Model):
     codigo = models.CharField(db_column='Codigo', max_length=2, primary_key=True)  # Field name made lowercase.
     descripcion = models.CharField(db_column='Descripcion', max_length=200, blank=True, null=True)  # Field name made lowercase.
-    un_1001 = models.CharField(db_column='UN_1001', max_length=3, blank=True, null=True)  # Field name made lowercase.
+    un_1001 = models.CharField(db_column='UN_1001', max_length=4, blank=True, null=True)  # Field name made lowercase.
     serieSufix= models.CharField(max_length=2, null=False, default='')
 
     class Meta:
