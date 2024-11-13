@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import environ
-from .awsData import sharedKey, dbEngine, nameDb, passwordDb, userDb, hostDb, portDb 
+from .awsData import sharedKey, passwordDb
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
