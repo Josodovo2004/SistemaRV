@@ -101,6 +101,36 @@ class TipoOperacion(models.Model):
 
     def __str__(self):
         return self.name
+    
+class ResumenDiario(models.Model):
+    serie = models.CharField(max_length=4, null=False)
+    numeroResumen = models.CharField(max_length=8, null=False)
+    fechaEmision = models.DateField(default=tm.now, null=True)
+    
+    def __str__(self):
+        return f'Resumen Diario: {self.fechaEmision if self.fechaEmision else "No Exist"}'
+    
+    def save(self, *args, **kwargs):
+        if not self.serie or not self.numeroComprobante:
+            last_comprobante = Comprobante.objects.filter(serie__startswith=self.tipoComprobante.codigo, emisor__id = self.emisor.id).order_by('-id').first()
+
+            if last_comprobante:
+                last_num = int(last_comprobante.numeroComprobante)
+                last_serie = str(last_comprobante.serie)[-2::]
+                
+                if last_num >= 99999999:
+                    last_num = 1
+                    new_serie_number = int(last_serie) + 1
+                    self.serie = str(new_serie_number).zfill(2)
+                else:
+                    last_num += 1
+                    self.serie = last_serie
+            else:
+                self.serie = f'RC01' 
+                last_num = 1
+
+            self.numeroComprobante = str(last_num).zfill(8)
+        super().save(*args, **kwargs)
 
 class Comprobante(models.Model):
     emisor = models.ForeignKey(Entidad, on_delete=models.DO_NOTHING, null=False, related_name='comprobantes_emitidos')
@@ -111,6 +141,8 @@ class Comprobante(models.Model):
     serie = models.CharField(max_length=4, null=True)
     numeroComprobante = models.CharField(max_length=8, null=False)
     fechaEmision = models.DateField(default=tm.now, null=True)
+    emitidoASunat = models.BooleanField(default=False)
+    resumenDeEmision = models.ForeignKey(ResumenDiario, null=True, on_delete=models.SET_NULL)
     codigoMoneda = models.ForeignKey(CodigoMoneda, on_delete=models.DO_NOTHING, null=True)
     estado = models.ForeignKey(EstadoDocumento, on_delete=models.SET_NULL, null=True)
 
@@ -159,6 +191,8 @@ class NotaCredito(models.Model):
     numeroNota = models.CharField(max_length=8, null=False)
     comprobante = models.ForeignKey(Comprobante, on_delete=models.DO_NOTHING)
     fechaEmision = models.DateField(default=tm.now, null=True)
+    emitidoASunat = models.BooleanField(default=False)
+    resumenDeEmision = models.ForeignKey(ResumenDiario, null=True, on_delete=models.SET_NULL)
     tipo = models.ForeignKey(Catalogo09TipoNotaDeCredito, on_delete=models.DO_NOTHING)
     
     def __str__(self):
@@ -196,6 +230,8 @@ class NotaDebito(models.Model):
     numeroNota = models.CharField(max_length=8, null=False)
     comprobante = models.ForeignKey(Comprobante, on_delete=models.DO_NOTHING)
     fechaEmision = models.DateField(default=tm.now, null=True)
+    emitidoASunat = models.BooleanField(default=False)
+    resumenDeEmision = models.ForeignKey(ResumenDiario, null=True, on_delete=models.SET_NULL)
     tipo = models.ForeignKey(Catalogo10TipoNotaDeDebito, on_delete=models.DO_NOTHING)
     
     def __str__(self):
@@ -227,3 +263,4 @@ class NotaDebito(models.Model):
 
             self.numeroComprobante = str(last_num).zfill(8)
         super().save(*args, **kwargs)
+        
