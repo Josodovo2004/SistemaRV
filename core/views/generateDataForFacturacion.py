@@ -57,32 +57,7 @@ class GenerateFacturacionFromIds(APIView):
     )
     @jwt_required
     def post(self, request, *args):
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+  
         data = request.data
         
         # Required keys for validation
@@ -256,8 +231,8 @@ class GenerateFacturacionFromIds(APIView):
             
             sendData['comprobante']['ImporteTotalVenta'] = sendData['comprobante']['totalConImpuestos'] -  sendData['comprobante']['MontoTotalImpuestos']
         
-            item_detail_url = "http://54.235.246.131:8003//api/generar_comprobante/"
-            response = requests.post(item_detail_url, json=sendData)
+            generar_comprobante_url = "http://54.235.246.131:8003//api/generar_comprobante/"
+            response = requests.post(generar_comprobante_url, json=sendData)
 
         
         except requests.RequestException as e:

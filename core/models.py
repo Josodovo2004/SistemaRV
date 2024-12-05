@@ -185,6 +185,7 @@ class ComprobanteItem(models.Model):
     comprobante = models.ForeignKey(Comprobante, on_delete=models.CASCADE ,null=False)
     codigoItem = models.IntegerField(null=False)
     cantidad = models.IntegerField(null=False)
+    porcentajePrecio = models.FloatField(null=False, default=100)
     
 class NotaCredito(models.Model):
     serie = models.CharField(max_length=4, null=False)

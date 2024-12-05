@@ -106,5 +106,5 @@ urlpatterns = [
     
     path('get-serie-and-number/', GetSerieAndNumber.as_view(), name='get-serie-and-number'),
     
-    path('enviar-servicio-facturacion/', GenerateFacturacionFromIds.as_view(), name='enviar-a-sunat'),
+    path('enviar-servicio-facturacion/boleta-o-factura', GenerateFacturacionFromIds.as_view(), name='enviar-boleta-factura'),
 ]
