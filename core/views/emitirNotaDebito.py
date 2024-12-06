@@ -6,10 +6,12 @@ from SistemaRV.decorators import CustomJWTAuthentication
 from rest_framework.views import APIView
 from rest_framework import status
 import requests
-from core.models import Entidad, Comprobante, ComprobanteItem, TipoPago, NotaCredito
+from core.models import  ComprobanteItem, TipoPago, NotaDebito
+from datetime import timedelta
 from core.serializers import comprobanteItemSerializer
 
-class EmitirNotaCredito(APIView):
+
+class EmitirNotaDebito(APIView):
     authentication_classes = [CustomJWTAuthentication]
     permission_classes = []
     
@@ -21,69 +23,68 @@ class EmitirNotaCredito(APIView):
         
         #validacion de los datos del request
         
-        if type(data['notaCredito']) != int:
-            return Response('notaCredito debe ser un entero', status=status.HTTP_400_BAD_REQUEST)
+        if type(data['notaDebito']) != int:
+            return Response('notaDebito debe ser un entero', status=status.HTTP_400_BAD_REQUEST)
         if type(data['ruc']) != int:
             return Response('ruc debe ser un entero', status=status.HTTP_400_BAD_REQUEST)
         if type(data['observaciones']) != str:
             return Response('observaciones debe ser un string', status=status.HTTP_400_BAD_REQUEST)
         
         
-        #validacion de que la nota de credito existe
+        #validacion de que la nota de debito existe
         
-        notaCredito = NotaCredito.objects.filter(id=data['notaCredito'], ).first()
+        notaDebito = NotaDebito.objects.filter(id=data['notaDebito'], ).first()
         
-        if notaCredito == None:
-            return Response(f'No existe una nota de credito con id{notaCredito.id}', status=status.HTTP_400_BAD_REQUEST)
+        if notaDebito == None:
+            return Response(f'No existe una nota de debito con id{notaDebito.id}', status=status.HTTP_400_BAD_REQUEST)
         
-        #validacion de que la nota de credito le petenezca al usuario que hizo la peticion
+        #validacion de que la nota de debito le petenezca al usuario que hizo la peticion
         
-        if notaCredito.comprobante.emisor.numeroDocumento != data['ruc']:
-            return Response(f'La nota de credito con id {notaCredito.id} no le pertenece a este usuario con ruc {data['ruc']}', status=status.HTTP_400_BAD_REQUEST)
+        if notaDebito.comprobante.emisor.numeroDocumento != data['ruc']:
+            return Response(f'La nota de debito con id {notaDebito.id} no le pertenece a este usuario con ruc {data['ruc']}', status=status.HTTP_400_BAD_REQUEST)
+        
         
         sendData = {
-            'typeCode': notaCredito.tipo.codigo,
-            'descripcion' : notaCredito.tipo.descripcion,
+            
+            'typeCode': notaDebito.tipo.codigo,
+            'descripcion' : notaDebito.tipo.descripcion,
             "comprobante" : {
-                "serieDocumento": notaCredito.serie,
-                "numeroDocumento": notaCredito.numeroComprobante,
-                "fechaEmision": notaCredito.fechaEmision,
+                "serieDocumento": notaDebito.serie,
+                "numeroDocumento": notaDebito.numeroComprobante,
+                "fechaEmision": notaDebito.fechaEmision,
                 "MontoTotalImpuestos": 0,
                 "ImporteTotalVenta": 0,
                 "totalConImpuestos": 0
                 },
             "emisor": {
-                "TipoDocumento": notaCredito.comprobante.emisor.tipoDocumento.codigo,  # RUC
-                "DocumentoEmisor": notaCredito.comprobante.emisor.numeroDocumento,
-                "RazonSocialEmisor": notaCredito.comprobante.emisor.razonSocial,
-                "ubigeo": notaCredito.comprobante.emisor.ubigeo.codigo,
-                "calle": notaCredito.comprobante.emisor.direccion,
-                "distrito": notaCredito.comprobante.emisor.ubigeo.distrito,
-                "provincia": notaCredito.comprobante.emisor.ubigeo.provincia,
-                "departamento": notaCredito.comprobante.emisor.ubigeo.departamento
+                "TipoDocumento": notaDebito.comprobante.emisor.tipoDocumento.codigo,  # RUC
+                "DocumentoEmisor": notaDebito.comprobante.emisor.numeroDocumento,
+                "RazonSocialEmisor": notaDebito.comprobante.emisor.razonSocial,
+                "ubigeo": notaDebito.comprobante.emisor.ubigeo.codigo,
+                "calle": notaDebito.comprobante.emisor.direccion,
+                "distrito": notaDebito.comprobante.emisor.ubigeo.distrito,
+                "provincia": notaDebito.comprobante.emisor.ubigeo.provincia,
+                "departamento": notaDebito.comprobante.emisor.ubigeo.departamento
                 },
             "adquiriente": {
-                 "TipoDocumentoAdquiriente": notaCredito.comprobante.adquiriente.tipoDocumento.codigo,  # DNI
-                "NumeroDocumentoAdquiriente": notaCredito.comprobante.adquiriente.numeroDocumento,
-                "razonSocial": notaCredito.comprobante.adquiriente.razonSocial
+                 "TipoDocumentoAdquiriente": notaDebito.comprobante.adquiriente.tipoDocumento.codigo,  # DNI
+                "NumeroDocumentoAdquiriente": notaDebito.comprobante.adquiriente.numeroDocumento,
+                "razonSocial": notaDebito.comprobante.adquiriente.razonSocial
                 },
             "taxes" : {},
             "items" : [],
             "documentoRelacionado" : {
-                "serieDocumento": notaCredito.comprobante.serie,
-                "numeroDocumento": notaCredito.comprobante.numeroComprobante,
-                "tipoComprobante": notaCredito.comprobante.tipoComprobante.codigo
+                "serieDocumento": notaDebito.comprobante.serie,
+                "numeroDocumento": notaDebito.comprobante.numeroComprobante,
+                "tipoComprobante": notaDebito.comprobante.tipoComprobante.codigo
                 },
             "observaciones" : data["observaciones"],
             "formaPago" : TipoPago.objects.filter(id=data["tipoPago"]).first().name,
             "image_path" : ''
         }
         
-        #inicio de la construccion de los datos de emision
         
-        #obtener datos de los productos
-        
-        items = ComprobanteItem.objects.filter(comprobante = notaCredito.comprobante) #ids de los productos necesarios
+        items = ComprobanteItem.objects.filter(comprobante = notaDebito.comprobante) #ids de los productos necesarios
         sItems = comprobanteItemSerializer(items, many=True).data
         
         try:

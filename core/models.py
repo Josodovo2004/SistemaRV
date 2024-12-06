@@ -265,3 +265,18 @@ class NotaDebito(models.Model):
             self.numeroComprobante = str(last_num).zfill(8)
         super().save(*args, **kwargs)
         
+        
+class Catalogo20MotivosDeTraslado(models.Model):
+    codigo = models.CharField(max_length=2, primary_key=True)
+    descripcion = models.CharField(max_length=150)
+
+class GuiaRemision(models.Model):
+    serie = models.CharField(max_length=4, null=False)
+    numeroGuia = models.CharField(max_length=8, null=False)
+    fechaEmision = models.DateField(default=tm.now, null=True)
+    emitidoASunat = models.BooleanField(default=False)
+    emisor = models.ForeignKey(Entidad, on_delete=models.DO_NOTHING)
+    adquiriente = models.ForeignKey(Entidad, on_delete=models.DO_NOTHING)
+    motivoTransporte = models.ForeignKey(Catalogo20MotivosDeTraslado, on_delete=models.DO_NOTHING)
+    unidadMedida = models.CharField(max_length=15)
+    
