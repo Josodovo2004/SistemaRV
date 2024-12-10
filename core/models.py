@@ -185,6 +185,7 @@ class ComprobanteItem(models.Model):
     comprobante = models.ForeignKey(Comprobante, on_delete=models.CASCADE ,null=False)
     codigoItem = models.IntegerField(null=False)
     cantidad = models.IntegerField(null=False)
+    porcentajePrecio = models.FloatField(null=False, default=100)
     
 class NotaCredito(models.Model):
     serie = models.CharField(max_length=4, null=False)
@@ -264,3 +265,26 @@ class NotaDebito(models.Model):
             self.numeroComprobante = str(last_num).zfill(8)
         super().save(*args, **kwargs)
         
+        
+class Catalogo20MotivosDeTraslado(models.Model):
+    codigo = models.CharField(max_length=2, primary_key=True)
+    descripcion = models.CharField(max_length=150)
+
+class GuiaRemision(models.Model):
+    serie = models.CharField(max_length=4, null=False)
+    numeroGuia = models.CharField(max_length=8, null=False)
+    fechaEmision = models.DateField(default=tm.now, null=True)
+    emitidoASunat = models.BooleanField(default=False)
+    emisorGuia = models.ForeignKey(
+        Entidad, 
+        on_delete=models.DO_NOTHING, 
+        related_name='guias_remision_emitidas'
+    )
+    adquirienteGuia = models.ForeignKey(
+        Entidad, 
+        on_delete=models.DO_NOTHING, 
+        related_name='guias_remision_recibidas'
+    )
+    motivoTransporte = models.ForeignKey(Catalogo20MotivosDeTraslado, on_delete=models.DO_NOTHING)
+    unidadMedida = models.CharField(max_length=15)
+    
