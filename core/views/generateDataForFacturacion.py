@@ -57,32 +57,6 @@ class GenerateFacturacionFromIds(APIView):
     )
     @jwt_required
     def post(self, request, *args):
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         data = request.data
         
         # Required keys for validation
