@@ -157,7 +157,7 @@ class GenerateFacturacionFromIds(APIView):
             items = []
             response = requests.get(item_detail_url, params={"ids": ",".join(map(str, item_ids)), "resupuesta_simple": "false"})
             if response.status_code == 200:
-                items = response.json()
+                items = response.json()['results']
                 item_details = []
             else:
                 return Response(f"Error fetching items: {response.status_code}")
