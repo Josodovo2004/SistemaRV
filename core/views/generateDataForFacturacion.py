@@ -8,6 +8,7 @@ from rest_framework import status
 import requests
 from core.models import Entidad, Comprobante, ComprobanteItem, TipoPago
 from datetime import timedelta
+from datetime import datetime
 
 class GenerateFacturacionFromIds(APIView):
     authentication_classes = [CustomJWTAuthentication]
@@ -110,8 +111,8 @@ class GenerateFacturacionFromIds(APIView):
         sendData["comprobante"] = {
             "serieDocumento": comprobante.serie,
                 "numeroDocumento": comprobante.numeroComprobante,
-                "fechaEmision": str(comprobante.fechaEmision),
-                "DueDate": f'{comprobante.fechaEmision + timedelta(days=7)}',
+                "fechaEmision": str(datetime.today()),
+                "DueDate": f'{datetime.today() + timedelta(days=7)}',
                 "tipoComprobante": comprobante.tipoComprobante.codigo,
                 "cantidadItems": 0,
                 "MontoTotalImpuestos": 0,
@@ -120,7 +121,7 @@ class GenerateFacturacionFromIds(APIView):
         }
         
         #-----------datos emisor-----------------#
-        emisor = Entidad.objects.filter(id=data["emisor"]).first()
+        emisor = comprobante.emisor
         
         sendData['image_path'] = emisor.imagen
         
@@ -138,7 +139,7 @@ class GenerateFacturacionFromIds(APIView):
         }
         
         #-------------------------datos adquiriente---------------------#
-        adquiriente = Entidad.objects.filter(id=data["comprador"]).first()
+        adquiriente = comprobante.adquiriente
         
         sendData["adquiriente"] = {
                 "TipoDocumentoAdquiriente": adquiriente.tipoDocumento.codigo,
