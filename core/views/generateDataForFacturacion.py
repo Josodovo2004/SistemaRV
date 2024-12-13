@@ -64,8 +64,6 @@ class GenerateFacturacionFromIds(APIView):
         # Required keys for validation
         required_keys = {
             'comprobante': int,
-            'emisor': int,
-            'comprador': int,
             'items': list,
             'payTerms': list,
             'observaciones': str,
