@@ -166,7 +166,6 @@ class GenerateFacturacionFromIds(APIView):
             
             #------------------------- procesando la data de los items-----------------------#
             for item in items:
-                return Response(item)
                 for value in data['items']:
                     if value['id'] == item['id']:
                         cantidad = value['quantity']
@@ -199,7 +198,7 @@ class GenerateFacturacionFromIds(APIView):
                 
                 #------------------procesando impuestos-----------------#
                 
-                for tax in item['taxes']:
+                for tax in item["taxes"]:
                     dataToAdd['tax'][tax['impuesto']['nombre']] = {
                             "operacionesGravadas": round((item['valorUnitario'] * cantidad)/(1+totalPercentage), 2),
                             "MontoTotalImpuesto": round((item['valorUnitario'] * cantidad)-((item['valorUnitario'] * cantidad)/(1+(tax['porcentaje']/100))), 2),
