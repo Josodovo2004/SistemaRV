@@ -157,18 +157,15 @@ class GenerateFacturacionFromIds(APIView):
             items = []
             response = requests.get(item_detail_url, params={"ids": ",".join(map(str, item_ids)), "resupuesta_simple": "false"})
             if response.status_code == 200:
-                items = response.json()  # Assuming the response JSON is already a list of items
+                items = response.json()
+                item_details = []
             else:
-            # Handle any errors, such as logging or raising an exception
                 return Response(f"Error fetching items: {response.status_code}")
-            if response.status_code != 200:
-                return Response({"error": "Failed to retrieve item details from custom-item-view."}, status=response.status_code)
-            item_details = []
             # Add fetched item details to response data
             numeroId=1
             
             #------------------------- procesando la data de los items-----------------------#
-            for item in items['results']:
+            for item in items:
                 for value in data['items']:
                     if value['id'] == item['id']:
                         cantidad = value['quantity']
