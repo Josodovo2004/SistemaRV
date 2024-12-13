@@ -169,6 +169,8 @@ class GenerateFacturacionFromIds(APIView):
                 for value in data['items']:
                     if value['id'] == item['id']:
                         cantidad = value['quantity']
+
+                item = dict(item)
                         
                 dataToAdd = {
                     "unidadMedida": item["unidadMedida"]["codigo"],
