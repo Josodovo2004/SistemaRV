@@ -166,6 +166,7 @@ class GenerateFacturacionFromIds(APIView):
             
             #------------------------- procesando la data de los items-----------------------#
             for item in items:
+                return Response(item)
                 for value in data['items']:
                     if value['id'] == item['id']:
                         cantidad = value['quantity']
