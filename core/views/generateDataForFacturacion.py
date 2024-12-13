@@ -56,7 +56,7 @@ class GenerateFacturacionFromIds(APIView):
             400: openapi.Response(description="Bad Request")
         }
     )
-    @jwt_required
+    #@jwt_required
     def post(self, request, *args):
   
         data = request.data
@@ -245,9 +245,7 @@ class GenerateFacturacionFromIds(APIView):
     
 if __name__ == '__main__':
     data = {
-        'comprobante': 1,
-        'emisor' : 1,
-        'comprador' : 2,
+        'comprobante': 2,
         'items' : [
             {'id': 6,
             'quantity' : 5},
