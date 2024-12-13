@@ -226,7 +226,7 @@ class GenerateFacturacionFromIds(APIView):
                 item_details.append(item)
                 
                 sendData['items'].append(dataToAdd)
-            data['item_details'] = item_details
+            sendData['item_details'] = item_details
             
             sendData['comprobante']['ImporteTotalVenta'] = sendData['comprobante']['totalConImpuestos'] -  sendData['comprobante']['MontoTotalImpuestos']
         
