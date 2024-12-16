@@ -231,7 +231,7 @@ class GenerateFacturacionFromIds(APIView):
             
             sendData['comprobante']['ImporteTotalVenta'] = sendData['comprobante']['totalConImpuestos'] -  sendData['comprobante']['MontoTotalImpuestos']
         
-            generar_comprobante_url = "http://54.235.246.131:8003//api/generar_comprobante/"
+            generar_comprobante_url = "http://127.0.0.1:8003//api/generar_comprobante/"
             response = requests.post(generar_comprobante_url, json=sendData)
 
         
