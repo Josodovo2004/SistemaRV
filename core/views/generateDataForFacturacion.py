@@ -11,7 +11,7 @@ from datetime import timedelta
 from datetime import datetime
 
 class GenerateFacturacionFromIds(APIView):
-    authentication_classes = [CustomJWTAuthentication]
+    #authentication_classes = [CustomJWTAuthentication]
     permission_classes = []
     
     
@@ -70,6 +70,8 @@ class GenerateFacturacionFromIds(APIView):
             'tipoPago': int,
         }
         
+        print('1')
+        
         # Check if each required key is in the data
         for key, expected_type in required_keys.items():
             if key not in data:
@@ -90,6 +92,8 @@ class GenerateFacturacionFromIds(APIView):
                 return Response({
                     "error": "Each entry in 'payTerms' must be a dictionary with a 'metodo' key."
                 }, status=status.HTTP_400_BAD_REQUEST)
+                
+        print('2')
                 
         sendData = {
             "comprobante" : {},
@@ -149,6 +153,8 @@ class GenerateFacturacionFromIds(APIView):
                 "departamentoComprador": adquiriente.ubigeo.departamento
             }
         
+        print('3')
+        
         #-------------peticion de la data de los items-----------------#
         
         try:
@@ -163,6 +169,8 @@ class GenerateFacturacionFromIds(APIView):
                 return Response(f"Error fetching items: {response.status_code}")
             # Add fetched item details to response data
             numeroId=1
+            
+            print('4')
             
             #------------------------- procesando la data de los items-----------------------#
             for item in items:
@@ -231,13 +239,32 @@ class GenerateFacturacionFromIds(APIView):
             sendData['item_details'] = item_details
             
             sendData['comprobante']['ImporteTotalVenta'] = sendData['comprobante']['totalConImpuestos'] -  sendData['comprobante']['MontoTotalImpuestos']
-        
+            print('5')
             generar_comprobante_url = "http://127.0.0.1:8003//api/generar_comprobante/"
+            print(sendData)
             response = requests.post(generar_comprobante_url, json=sendData)
+            
+            # Check if the response is successful
+            if response.status_code == 200:
+                # Try to parse the JSON response
+                try:
+                    response_data = response.json()
+                    return Response(response_data, status=status.HTTP_200_OK)
+                except ValueError:
+                    # If JSON decoding fails, return the raw text
+                    return Response({'response': response.text}, status=response.status_code)
+            else:
+                # If the external API returns an error
+                return Response({
+                    'error': 'External API call failed', 
+                    'status_code': response.status_code, 
+                    'response_text': response.text
+                }, status=response.status_code)
 
-        
         except requests.RequestException as e:
-            return Response({"error": f"Internal API call failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({
+                "error": f"Internal API call failed: {str(e)}"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         
         # If all checks pass, return a success response
