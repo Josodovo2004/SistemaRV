@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import environ
-from .awsData import sharedKey, passwordDb
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -92,7 +91,7 @@ DATABASES = {
         "ENGINE": 'django.db.backends.postgresql',
         "NAME": 'SistemaRV',
         "USER": 'postgres',
-        "PASSWORD": passwordDb,
+        "PASSWORD": '1234',
         "HOST": 'db',
         "PORT": '5432',
     }
@@ -178,7 +177,7 @@ REST_FRAMEWORK = {
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'SIGNING_KEY': sharedKey,  # The shared secret key across services
+    'SIGNING_KEY': 'sharedKey',  # The shared secret key across services
     'AUTH_HEADER_TYPES': ('Bearer',),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Adjust as necessary
     'USER_ID_FIELD': 'id',  # Field used to identify the user
